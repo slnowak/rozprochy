@@ -1,10 +1,6 @@
-import org.apache.commons.lang3.RandomUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 
-import java.io.ByteArrayInputStream;
-import java.net.InetAddress;
 import java.net.ServerSocket;
-import java.net.Socket;
-import java.nio.ByteBuffer;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -15,7 +11,9 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
 
-        final ServerSocket serverSocket = new ServerSocket(ConstantHolder.PORT);
+        final int serverPort = parsePortNumberFrom(args);
+
+        final ServerSocket serverSocket = new ServerSocket(serverPort);
         final ExecutorService executorService = Executors.newFixedThreadPool(ConstantHolder.WORKERS);
         final Thread serverThread = new Thread(
                 new Server(serverSocket, executorService)
@@ -24,5 +22,10 @@ public class Main {
         serverThread.start();
     }
 
-
+    private static int parsePortNumberFrom(String[] args) {
+        if (args.length > 0 && NumberUtils.isNumber(args[0])) {
+            return NumberUtils.createInteger(args[0]);
+        }
+        return ConstantHolder.PORT;
+    }
 }
