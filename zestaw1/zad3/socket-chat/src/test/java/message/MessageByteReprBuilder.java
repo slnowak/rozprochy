@@ -1,7 +1,6 @@
 package message;
 
 import org.apache.commons.lang3.SerializationUtils;
-import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 
 import java.nio.ByteBuffer;

@@ -28,7 +28,7 @@ public class MessageTest {
         new Message("", "content", LocalDateTime.now());
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = InvalidChecksumException.class)
     public void shouldNotBeAbleToDeserializeFromByteArrayWithInvalidChecksum() throws Exception {
 
         final String nick = "nick";

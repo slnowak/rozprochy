@@ -1,6 +1,5 @@
 package message;
 
-import com.google.common.base.Preconditions;
 import org.apache.commons.lang3.SerializationException;
 import org.apache.commons.lang3.SerializationUtils;
 import org.joda.time.LocalDateTime;
@@ -74,7 +73,7 @@ public class Message {
         return result;
     }
 
-    public static Message fromByteArray(byte[] bytes) {
+    public static Message fromByteArray(byte[] bytes) throws InvalidChecksumException {
         final DataInputStream dataInputStream = new DataInputStream(
                 new ByteArrayInputStream(bytes)
         );
@@ -89,7 +88,9 @@ public class Message {
             throw new InvalidSerializedMessageException();
         }
 
-        Preconditions.checkArgument(checkSum == deserializedMessageData.hashCode(), "Invalid checksum!");
+        if (checkSum != deserializedMessageData.hashCode()) {
+            throw new InvalidChecksumException();
+        }
         return new Message(deserializedMessageData);
 
     }

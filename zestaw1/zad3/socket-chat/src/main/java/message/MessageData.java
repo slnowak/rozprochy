@@ -1,7 +1,6 @@
 package message;
 
 import com.google.common.base.Preconditions;
-import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 
 import java.io.Serializable;
