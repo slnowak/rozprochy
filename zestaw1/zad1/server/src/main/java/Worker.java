@@ -45,8 +45,8 @@ public class Worker implements Runnable {
     }
 
     private void sendResponse(int piDigit) throws IOException {
-        final ByteBuffer buffer = ByteBuffer.allocate(4);
-        buffer.putInt(piDigit);
+        final ByteBuffer buffer = ByteBuffer.allocate(1);
+        buffer.put((byte) piDigit);
 
         final OutputStream stream = socket.getOutputStream();
         stream.write(

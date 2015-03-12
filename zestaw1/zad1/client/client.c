@@ -57,13 +57,13 @@ void ask_for_user_input(unsigned char *nbytes, long long int *number) {
 }
 
 void wait_for_an_answer(int descriptor) {
-    int result;
+    unsigned char result;
     SAFE_CALL(
             recv(descriptor, &result, sizeof result, 0),
             "Error in recv: "
     );
 
-    printf("Response: %d\n", ntohl((uint32_t) result));
+    printf("Response: %d\n", (int)result);
 }
 
 void send_number_as_n_bytes(int descriptor, long long number, unsigned char number_of_bytes) {
