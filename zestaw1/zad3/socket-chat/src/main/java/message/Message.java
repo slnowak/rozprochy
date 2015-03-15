@@ -84,7 +84,9 @@ public class Message {
         try {
             checkSum = dataInputStream.readInt();
             deserializedMessageData = SerializationUtils.deserialize(dataInputStream);
-        } catch (IOException | SerializationException e) {
+        } catch (IOException e) {
+            throw new InvalidSerializedMessageException();
+        } catch (SerializationException e) {
             throw new InvalidSerializedMessageException();
         }
 
