@@ -16,7 +16,6 @@ import java.util.stream.Collectors;
  */
 public class ChannelListViewPresenter extends AbstractPresenter<ChannelListView> {
 
-    private ChannelListView view;
     private final EventBus eventBus;
 
     public ChannelListViewPresenter(EventBus eventBus) {
@@ -26,10 +25,6 @@ public class ChannelListViewPresenter extends AbstractPresenter<ChannelListView>
 
     public void handleConnectToChannelButtonClicked() {
         view.askForChannelToConnect();
-    }
-
-    public void view(ChannelListView view) {
-        this.view = view;
     }
 
     public void handleChannelTyped(String channel) {
@@ -52,7 +47,5 @@ public class ChannelListViewPresenter extends AbstractPresenter<ChannelListView>
         }
 
         view.renderView(StringUtils.stripEnd(result, "\n\n"));
-
-
     }
 }

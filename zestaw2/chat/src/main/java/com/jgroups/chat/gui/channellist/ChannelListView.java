@@ -1,10 +1,10 @@
 package com.jgroups.chat.gui.channellist;
 
+import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextInputDialog;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 
 import java.util.Optional;
@@ -58,7 +58,10 @@ public class ChannelListView extends VBox {
     }
 
     void renderView(String channelList) {
-        channelListWithUsers.setText(channelList);
+        Platform.runLater(
+                () -> channelListWithUsers.setText(channelList)
+        );
+
     }
 
 }

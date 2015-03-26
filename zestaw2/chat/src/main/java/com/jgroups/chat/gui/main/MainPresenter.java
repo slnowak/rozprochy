@@ -3,6 +3,7 @@ package com.jgroups.chat.gui.main;
 import com.google.common.eventbus.EventBus;
 import com.jgroups.chat.gui.AbstractPresenter;
 import com.jgroups.chat.gui.channellist.ChannelListViewPresenter;
+import com.jgroups.chat.gui.common.events.NickChosenEvent;
 import com.jgroups.chat.gui.tabbedchat.TabbedPaneChatPresenter;
 
 /**
@@ -33,7 +34,10 @@ public class MainPresenter extends AbstractPresenter<MainView> {
     }
 
     public void handleNicknameTyped(String nickname) {
-        view.nickname(nickname);
+//        view.nickname(nickname);
+        eventBus.post(new NickChosenEvent(nickname));
 
     }
+
+
 }

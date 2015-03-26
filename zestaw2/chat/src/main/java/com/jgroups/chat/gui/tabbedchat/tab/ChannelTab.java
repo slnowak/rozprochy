@@ -1,5 +1,6 @@
 package com.jgroups.chat.gui.tabbedchat.tab;
 
+import javafx.application.Platform;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 
@@ -23,11 +24,11 @@ public class ChannelTab extends VBox {
     public void addMessage(String message) {
         final String history = chatHistory.getText();
         final String withMessageAppended = history + "\n" + message;
-        chatHistory.setText(withMessageAppended);
+        Platform.runLater(() -> chatHistory.setText(withMessageAppended));
     }
 
     private void initializeView() {
-        chatHistory = new Label("dsdsa");
+        chatHistory = new Label("");
         getChildren().add(chatHistory);
     }
 

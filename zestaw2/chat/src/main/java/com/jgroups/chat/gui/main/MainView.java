@@ -44,12 +44,4 @@ public class MainView extends HBox {
         result.ifPresent(presenter::handleNicknameTyped);
     }
 
-
-    public void nickname(String nickname) {
-        this.nickname = nickname;
-    }
-
-    public String nickname() {
-        return nickname;
-    }
 }
