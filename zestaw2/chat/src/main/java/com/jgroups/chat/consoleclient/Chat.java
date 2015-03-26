@@ -1,7 +1,6 @@
 package com.jgroups.chat.consoleclient;
 
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.eventbus.EventBus;
 import com.jgroups.chat.*;

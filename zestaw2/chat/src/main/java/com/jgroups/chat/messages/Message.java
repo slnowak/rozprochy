@@ -6,5 +6,6 @@ package com.jgroups.chat.messages;
 public interface Message {
 
     String channel();
+
     String nickname();
 }
