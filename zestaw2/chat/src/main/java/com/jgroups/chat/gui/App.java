@@ -22,7 +22,7 @@ public class App extends Application {
     public void start(Stage primaryStage) {
         primaryStage.setTitle("Hello World!");
         final EventBus eventBus = new EventBus();
-        final TabbedPaneChatPresenter tabbedPaneChatPresenter = new TabbedPaneChatPresenter();
+        final TabbedPaneChatPresenter tabbedPaneChatPresenter = new TabbedPaneChatPresenter(eventBus);
         final ChannelListViewPresenter channelListViewPresenter = new ChannelListViewPresenter(eventBus);
         final MainPresenter mainPresenter = new MainPresenter(eventBus, tabbedPaneChatPresenter, channelListViewPresenter);
         final MainView view = new MainView(mainPresenter);

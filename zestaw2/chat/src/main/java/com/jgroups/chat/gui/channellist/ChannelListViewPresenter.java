@@ -2,6 +2,7 @@ package com.jgroups.chat.gui.channellist;
 
 import com.google.common.eventbus.EventBus;
 import com.jgroups.chat.gui.AbstractPresenter;
+import com.jgroups.chat.gui.common.events.ConnectToChannelRequestedEvent;
 
 /**
  * Created by novy on 26.03.15.
@@ -26,6 +27,6 @@ public class ChannelListViewPresenter extends AbstractPresenter<ChannelListView>
 
     public void handleChannelTyped(String channel) {
         // todo: to some kind of checking
-//        eventBus.post(new );
+        eventBus.post(new ConnectToChannelRequestedEvent(channel));
     }
 }

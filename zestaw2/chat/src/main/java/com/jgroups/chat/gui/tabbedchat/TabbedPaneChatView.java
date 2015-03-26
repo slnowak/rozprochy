@@ -1,5 +1,6 @@
 package com.jgroups.chat.gui.tabbedchat;
 
+import com.jgroups.chat.gui.tabbedchat.tab.ChannelTab;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.paint.Color;
@@ -16,6 +17,13 @@ public class TabbedPaneChatView extends TabPane {
         this.presenter = presenter;
         presenter.view(this);
         initializeView();
+    }
+
+    public void addTab(ChannelTab channelTab) {
+        Tab tab = new Tab();
+        tab.setText(channelTab.channelName());
+        tab.setContent(channelTab);
+        getTabs().add(tab);
     }
 
     private void initializeView() {
