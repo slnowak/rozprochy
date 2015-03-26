@@ -2,6 +2,7 @@ package com.jgroups.chat;
 
 import com.google.common.eventbus.EventBus;
 import com.google.protobuf.InvalidProtocolBufferException;
+import com.jgroups.chat.messages.ChatViewChanged;
 import com.jgroups.chat.messages.UserJoinMessage;
 import com.jgroups.chat.messages.UserQuitMessage;
 import org.jgroups.Address;
@@ -38,6 +39,10 @@ public class ManagementChannelReceiver extends ReceiverAdapter {
                         .map(Address::toString)
                         .collect(Collectors.toList())
         );
+
+        eventBus.post(
+                new ChatViewChanged(state.channelsWithUsers())
+        );
     }
 
     @Override
@@ -59,6 +64,10 @@ public class ManagementChannelReceiver extends ReceiverAdapter {
                         new UserQuitMessage(channel, nickname)
                 );
             }
+
+            eventBus.post(
+                    new ChatViewChanged(state.channelsWithUsers())
+            );
         } catch (InvalidProtocolBufferException e) {
             e.printStackTrace();
         }

@@ -27,4 +27,13 @@ public class MainPresenter extends AbstractPresenter<MainView> {
     public ChannelListViewPresenter channelListViewPresenter() {
         return channelListViewPresenter;
     }
+
+    public void handleApplicationStarted() {
+        view.askForNickanme();
+    }
+
+    public void handleNicknameTyped(String nickname) {
+        view.nickname(nickname);
+
+    }
 }

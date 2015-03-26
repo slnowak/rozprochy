@@ -28,6 +28,7 @@ public class ChannelTab extends VBox {
 
     private void initializeView() {
         chatHistory = new Label("dsdsa");
+        getChildren().add(chatHistory);
     }
 
     public String channelName() {
