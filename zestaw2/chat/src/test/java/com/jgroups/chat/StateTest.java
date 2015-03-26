@@ -112,6 +112,27 @@ public class StateTest {
         assertThat(actualResult).isEqualTo(expectedResult);
     }
 
+    @Test
+    public void shouldBeAbleToRetrieveActionsFromAllChannels() throws Exception {
+        final State objectUnderTest = new State(
+                ImmutableSet.of(
+                        actionFrom("ch1", "user2"), actionFrom("ch1", "user1"),
+                        actionFrom("ch2", "user1"), actionFrom("ch2", "user3")
+                )
+        );
+
+
+        final Collection<ChatAction> expectedResult = ImmutableList.of(
+                actionFrom("ch1", "user1"), actionFrom("ch1", "user2"),
+                actionFrom("ch2", "user1"), actionFrom("ch2", "user3")
+        );
+        final Collection<ChatAction> actualResult = objectUnderTest.allActions();
+
+        assertThat(actualResult).containsAll(expectedResult);
+        assertThat(actualResult).hasSameSizeAs(expectedResult);
+
+    }
+
     private ChatAction actionFrom(String channel, String nickname) {
         return ChatAction
                 .newBuilder()

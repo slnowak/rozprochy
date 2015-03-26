@@ -4,6 +4,7 @@ import org.jgroups.JChannel;
 import org.jgroups.Receiver;
 import org.jgroups.protocols.*;
 import org.jgroups.protocols.pbcast.*;
+import org.jgroups.stack.Protocol;
 import org.jgroups.stack.ProtocolStack;
 
 import java.net.InetAddress;
@@ -34,15 +35,19 @@ public class JChannelFactory {
 
     private static ProtocolStack defaultProtocolStackForAddress(String hostName) throws Exception {
 
-        final String inetAddressName = Optional.ofNullable(hostName).orElse(DEFAULT_HOSTNAME);
+//        final String inetAddressName = Optional.ofNullable(hostName).orElse(DEFAULT_HOSTNAME);
+        Protocol udp = new UDP();
+        if (hostName != null) {
+            udp = udp.setValue("mcast_group_addr", InetAddress.getByName(hostName));
+        }
 
         return new ProtocolStack()
-                .addProtocol(
-                        new UDP()
-                                .setValue(
-                                        "mcast_group_addr",
-                                        InetAddress.getByName(inetAddressName)
-                                )
+                .addProtocol(udp
+//                        new UDP()
+//                                .setValue(
+//                                        "mcast_group_addr",
+//                                        InetAddress.getByName(inetAddressName)
+//                                )
                 )
                 .addProtocol(new PING())
                 .addProtocol(new MERGE2())

@@ -27,9 +27,6 @@ public class ChannelReceiver extends ReceiverAdapter {
         final Address messageSource = msg.getSrc();
         try {
             final ChatMessage message = ChatMessage.parseFrom(msg.getBuffer());
-            // todo: temporary
-            System.out.println(new RegularChatMessage(channel, messageSource.toString(), message.getMessage())
-            );
             eventBus.post(
                     new RegularChatMessage(channel, messageSource.toString(), message.getMessage())
             );

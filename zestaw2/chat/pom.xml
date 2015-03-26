@@ -29,7 +29,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>com.jgroups.chat.Main</mainClass>
+                            <mainClass>com.jgroups.chat.consoleclient.Chat</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
