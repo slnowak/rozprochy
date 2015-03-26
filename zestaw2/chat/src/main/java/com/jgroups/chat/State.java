@@ -4,10 +4,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.jgroups.chat.operations.ChatOperationProtos.ChatAction;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -16,6 +13,9 @@ import java.util.stream.Collectors;
 public class State {
 
     private Set<ChatAction> state = Sets.newConcurrentHashSet();
+
+    public State() {
+    }
 
     State(Set<ChatAction> state) {
         this.state = Sets.newConcurrentHashSet(state);
@@ -39,6 +39,21 @@ public class State {
         Collections.sort(usersAsList);
 
         return usersAsList;
+    }
+
+    public Map<String, Collection<String>> channelsWithUsers() {
+        return state
+                .stream()
+                .collect(
+                        Collectors.groupingBy(
+                                ChatAction::getChannel,
+                                TreeMap::new,
+                                Collectors.mapping(
+                                        ChatAction::getNickname,
+                                        Collectors.toCollection(TreeSet::new)
+                                )
+                        )
+                );
     }
 
     public void registerUser(String channel, String username) {

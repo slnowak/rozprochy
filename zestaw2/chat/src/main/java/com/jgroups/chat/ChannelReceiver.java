@@ -3,7 +3,6 @@ package com.jgroups.chat;
 import com.google.common.eventbus.EventBus;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.jgroups.chat.messages.RegularChatMessage;
-import com.jgroups.chat.operations.ChatOperationProtos;
 import com.jgroups.chat.operations.ChatOperationProtos.ChatMessage;
 import org.jgroups.Address;
 import org.jgroups.Message;
@@ -28,6 +27,9 @@ public class ChannelReceiver extends ReceiverAdapter {
         final Address messageSource = msg.getSrc();
         try {
             final ChatMessage message = ChatMessage.parseFrom(msg.getBuffer());
+            // todo: temporary
+            System.out.println(new RegularChatMessage(channel, messageSource.toString(), message.getMessage())
+            );
             eventBus.post(
                     new RegularChatMessage(channel, messageSource.toString(), message.getMessage())
             );

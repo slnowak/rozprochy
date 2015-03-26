@@ -44,7 +44,7 @@ public class ManagementChannelReceiver extends ReceiverAdapter {
     public void receive(Message msg) {
         try {
 
-            final ChatAction chatAction = parseFrom(msg.getRawBuffer());
+            final ChatAction chatAction = parseFrom(msg.getBuffer());
             final String channel = chatAction.getChannel();
             final String nickname = chatAction.getNickname();
 

@@ -7,11 +7,18 @@ import org.jgroups.protocols.pbcast.*;
 import org.jgroups.stack.ProtocolStack;
 
 import java.net.InetAddress;
+import java.util.Optional;
 
 /**
  * Created by novy on 25.03.15.
  */
 public class JChannelFactory {
+
+    private static final String DEFAULT_HOSTNAME = "224.0.0.1";
+
+    public static JChannel channelFor(String channelName, Receiver receiver) throws Exception {
+        return channelFor(channelName, null, receiver);
+    }
 
     public static JChannel channelFor(String channelName, String hostName, Receiver receiver) throws Exception {
         final JChannel channel = new JChannel(false);
@@ -21,19 +28,20 @@ public class JChannelFactory {
         channel.setProtocolStack(defaultProtocolStack);
         defaultProtocolStack.init();
         channel.setReceiver(receiver);
-        channel.setDiscardOwnMessages(true);
 
         return channel;
     }
 
     private static ProtocolStack defaultProtocolStackForAddress(String hostName) throws Exception {
 
+        final String inetAddressName = Optional.ofNullable(hostName).orElse(DEFAULT_HOSTNAME);
+
         return new ProtocolStack()
                 .addProtocol(
                         new UDP()
                                 .setValue(
                                         "mcast_group_addr",
-                                        InetAddress.getByName(hostName)
+                                        InetAddress.getByName(inetAddressName)
                                 )
                 )
                 .addProtocol(new PING())
