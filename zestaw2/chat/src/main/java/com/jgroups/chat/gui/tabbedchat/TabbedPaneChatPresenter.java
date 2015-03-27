@@ -21,7 +21,7 @@ public class TabbedPaneChatPresenter extends AbstractPresenter<TabbedPaneChatVie
 
     private static final int GETTING_STATE_TIMEOUT = 0;
     private static final String CHAT_MANAGEMENT_CHANNEL_NAME = "ChatManagement768264";
-    private String nickname = "default";
+    private String nickname = "undefined";
 
     private final EventBus eventBus;
     private ChatManager manager;
@@ -47,7 +47,7 @@ public class TabbedPaneChatPresenter extends AbstractPresenter<TabbedPaneChatVie
         final Receiver channelMessageReceiver = channelReceiverFor(channelName, channelEventBus);
         JChannel channel = null;
         try {
-            channel = buildChannel("novy", channelName, channelMessageReceiver);
+            channel = buildChannel(nickname, channelName, channelMessageReceiver);
             channel.connect(channelName);
         } catch (Exception e) {
             e.printStackTrace();

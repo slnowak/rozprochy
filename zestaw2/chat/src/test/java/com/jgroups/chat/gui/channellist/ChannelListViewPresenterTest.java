@@ -8,9 +8,7 @@ import org.junit.Test;
 
 import java.util.Collection;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 public class ChannelListViewPresenterTest {
 
@@ -31,7 +29,7 @@ public class ChannelListViewPresenterTest {
         final String parsedViewStateToRender =
                 "channel1" + "\n" +
                         "\t-user1\n" + "\t-user2\n" + "\n" +
-                "channel2" + "\n" +
+                        "channel2" + "\n" +
                         "\t-user1\n" + "\t-user2\n" + "\t-user3";
         objectUnderTest.on(chatViewChangedEvent);
 

@@ -37,7 +37,7 @@ public class ChannelListViewPresenter extends AbstractPresenter<ChannelListView>
         // todo: fix later!
         final Map<String, Collection<String>> channelsWithUsers = chatViewChanged.newChatView();
         String result = "";
-        for (Map.Entry<String, Collection<String>> channel: channelsWithUsers.entrySet()) {
+        for (Map.Entry<String, Collection<String>> channel : channelsWithUsers.entrySet()) {
             result += channel.getKey() + "\n";
             result += channel.getValue()
                     .stream()
