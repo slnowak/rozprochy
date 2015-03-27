@@ -34,6 +34,7 @@ public class MainPresenter extends AbstractPresenter<MainView> {
     }
 
     public void handleNicknameTyped(String nickname) {
+        // todo: set title?
 //        view.nickname(nickname);
         eventBus.post(new NickChosenEvent(nickname));
 

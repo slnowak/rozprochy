@@ -28,9 +28,10 @@ public class TabbedPaneChatView extends TabPane {
     }
 
     private void initializeView() {
+        // todo: get rid of magic numbers
         Tab tab = new Tab();
-        tab.setText("new tab");
-        tab.setContent(new Rectangle(400, 400, Color.LIGHTSTEELBLUE));
+        tab.setText(null);
+        tab.setContent(new Rectangle(500, 500, Color.LIGHTSTEELBLUE));
         getTabs().add(tab);
     }
 }
