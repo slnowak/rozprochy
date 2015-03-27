@@ -85,4 +85,9 @@ public class TabbedPaneChatPresenter extends AbstractPresenter<TabbedPaneChatVie
     private JChannel buildChannel(String channelName, String hostName, Receiver receiver) throws Exception {
         return JChannelFactory.channelFor(channelName, hostName, receiver);
     }
+
+    public void tabClosed(String channelName) {
+        channelTabPresenters.remove(channelName);
+        manager.sendLeaveMessage(nickname, channelName);
+    }
 }

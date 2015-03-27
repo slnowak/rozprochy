@@ -20,7 +20,8 @@ public class TabbedPaneChatView extends TabPane {
     }
 
     public void addTab(ChannelTab channelTab) {
-        Tab tab = new Tab();
+        final Tab tab = new Tab();
+        tab.setOnClosed(action -> presenter.tabClosed(channelTab.channelName()));
         tab.setText(channelTab.channelName());
         tab.setContent(channelTab);
         getTabs().add(tab);
@@ -29,7 +30,7 @@ public class TabbedPaneChatView extends TabPane {
     private void initializeView() {
         Tab tab = new Tab();
         tab.setText("new tab");
-        tab.setContent(new Rectangle(200, 200, Color.LIGHTSTEELBLUE));
+        tab.setContent(new Rectangle(400, 400, Color.LIGHTSTEELBLUE));
         getTabs().add(tab);
     }
 }
