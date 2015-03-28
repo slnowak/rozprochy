@@ -1,7 +1,6 @@
 package com.jgroups.chat.gui;
 
 import com.jgroups.chat.gui.common.ErrorDisplayingAwareView;
-import javafx.scene.Parent;
 
 /**
  * Created by novy on 26.03.15.

@@ -23,7 +23,7 @@ public class ChannelReceiver extends ReceiverAdapter {
     }
 
     @Override
-    public void receive(Message msg)  {
+    public void receive(Message msg) {
         final Address messageSource = msg.getSrc();
         try {
             final ChatMessage message = ChatMessage.parseFrom(msg.getBuffer());
