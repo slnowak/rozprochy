@@ -42,7 +42,12 @@ public class MainView extends HBox implements ErrorDisplayingAwareView {
 
         final Optional<String> result = dialog.showAndWait();
 
-        result.ifPresent(presenter::handleNicknameTyped);
+        if (result.isPresent()) {
+            presenter.handleNicknameTyped(result.get());
+        } else {
+            presenter.handleNicknameNotTyped();
+        }
+
     }
 
 }

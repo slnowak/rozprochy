@@ -5,6 +5,7 @@ import com.jgroups.chat.gui.AbstractPresenter;
 import com.jgroups.chat.gui.channellist.ChannelListViewPresenter;
 import com.jgroups.chat.gui.common.events.NickChosenEvent;
 import com.jgroups.chat.gui.tabbedchat.TabbedPaneChatPresenter;
+import javafx.application.Platform;
 
 /**
  * Created by novy on 26.03.15.
@@ -37,5 +38,8 @@ public class MainPresenter extends AbstractPresenter<MainView> {
         eventBus.post(new NickChosenEvent(nickname));
     }
 
-
+    public void handleNicknameNotTyped() {
+        // ugh...
+        Platform.exit();
+    }
 }
