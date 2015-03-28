@@ -26,8 +26,6 @@ public class ChannelListView extends VBox implements ErrorDisplayingAwareView {
 
     private void initializeView() {
         channelListWithUsers = new Label();
-        // todo: start
-        renderView("ch1\n\tuser1\n\tuser2\nch2\n\tuser1");
 
         connectToChannelButton = new Button("Connect to channel");
         connectToChannelButton.setOnMouseClicked(mouseEvent -> presenter.handleConnectToChannelButtonClicked());

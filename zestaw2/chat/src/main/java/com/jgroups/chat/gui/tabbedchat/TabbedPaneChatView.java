@@ -4,13 +4,15 @@ import com.jgroups.chat.gui.common.ErrorDisplayingAwareView;
 import com.jgroups.chat.gui.tabbedchat.tab.ChannelTab;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 
 /**
  * Created by novy on 26.03.15.
  */
 public class TabbedPaneChatView extends TabPane implements ErrorDisplayingAwareView {
+
+    private static final int WIDTH = 800;
+    private static final int HEIGHT = 600;
+    private static final int TAB_WIDTH = 800/4;
 
     private final TabbedPaneChatPresenter presenter;
 
@@ -29,10 +31,7 @@ public class TabbedPaneChatView extends TabPane implements ErrorDisplayingAwareV
     }
 
     private void initializeView() {
-        // todo: get rid of magic numbers
-        Tab tab = new Tab();
-        tab.setText(null);
-        tab.setContent(new Rectangle(500, 500, Color.LIGHTSTEELBLUE));
-        getTabs().add(tab);
+        setMinSize(WIDTH, HEIGHT);
+        setTabMinWidth(TAB_WIDTH);
     }
 }
