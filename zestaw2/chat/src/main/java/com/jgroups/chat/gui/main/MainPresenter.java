@@ -30,7 +30,7 @@ public class MainPresenter extends AbstractPresenter<MainView> {
     }
 
     public void handleApplicationStarted() {
-        view.askForNickanme();
+        view.askForNickname();
     }
 
     public void handleNicknameTyped(String nickname) {

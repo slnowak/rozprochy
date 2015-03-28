@@ -22,15 +22,15 @@ public class ChatManager {
         }
     }
 
-    public void sendJoinMessage(String userName, String channelName) {
+    public void sendJoinMessage(String userName, String channelName) throws Exception {
         sendInfo(userName, channelName, ActionType.JOIN);
     }
 
-    public void sendLeaveMessage(String userName, String channelName) {
+    public void sendLeaveMessage(String userName, String channelName) throws Exception {
         sendInfo(userName, channelName, ActionType.LEAVE);
     }
 
-    private void sendInfo(String userName, String channelName, ActionType actionType) {
+    private void sendInfo(String userName, String channelName, ActionType actionType) throws Exception {
         final ChatAction action = ChatAction
                 .newBuilder()
                 .setNickname(userName)
@@ -40,10 +40,6 @@ public class ChatManager {
 
         final Message message = new Message(null, null, action.toByteArray());
 
-        try {
-            chatManagementChannel.send(message);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        chatManagementChannel.send(message);
     }
 }

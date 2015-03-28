@@ -1,5 +1,6 @@
 package com.jgroups.chat.gui.tabbedchat;
 
+import com.jgroups.chat.gui.common.ErrorDisplayingAwareView;
 import com.jgroups.chat.gui.tabbedchat.tab.ChannelTab;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -9,7 +10,7 @@ import javafx.scene.shape.Rectangle;
 /**
  * Created by novy on 26.03.15.
  */
-public class TabbedPaneChatView extends TabPane {
+public class TabbedPaneChatView extends TabPane implements ErrorDisplayingAwareView {
 
     private final TabbedPaneChatPresenter presenter;
 

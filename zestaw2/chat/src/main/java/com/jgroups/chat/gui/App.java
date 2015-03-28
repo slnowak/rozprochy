@@ -20,7 +20,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        primaryStage.setTitle("Hello World!");
+        primaryStage.setTitle("Chat");
         final EventBus eventBus = new EventBus();
         final TabbedPaneChatPresenter tabbedPaneChatPresenter = new TabbedPaneChatPresenter(eventBus);
         final ChannelListViewPresenter channelListViewPresenter = new ChannelListViewPresenter(eventBus);

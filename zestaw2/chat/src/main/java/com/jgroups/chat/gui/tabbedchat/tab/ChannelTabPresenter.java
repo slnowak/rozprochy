@@ -27,8 +27,16 @@ public class ChannelTabPresenter extends AbstractPresenter<ChannelTab> {
         }
     }
 
-    public void handleMessageTyped(String messageContent) throws Exception {
-        sendMessage(messageContent);
+    public void handleMessageTyped(String messageContent) {
+        try {
+            sendMessage(messageContent);
+        } catch (Exception e) {
+            e.printStackTrace();
+            view.showErrorDialog(
+                    "Error",
+                    "There was an error sending message!"
+            );
+        }
     }
 
     private void sendMessage(String messageContent) throws Exception {

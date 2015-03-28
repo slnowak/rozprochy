@@ -1,6 +1,7 @@
 package com.jgroups.chat.gui.main;
 
 import com.jgroups.chat.gui.channellist.ChannelListView;
+import com.jgroups.chat.gui.common.ErrorDisplayingAwareView;
 import com.jgroups.chat.gui.tabbedchat.TabbedPaneChatView;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.HBox;
@@ -10,7 +11,7 @@ import java.util.Optional;
 /**
  * Created by novy on 26.03.15.
  */
-public class MainView extends HBox {
+public class MainView extends HBox implements ErrorDisplayingAwareView {
 
     private final MainPresenter presenter;
 
@@ -33,7 +34,7 @@ public class MainView extends HBox {
         presenter.handleApplicationStarted();
     }
 
-    public void askForNickanme() {
+    public void askForNickname() {
         final TextInputDialog dialog = new TextInputDialog("nickname");
         dialog.setTitle("Type chanel");
         dialog.setHeaderText(null);

@@ -1,7 +1,7 @@
 package com.jgroups.chat.gui.channellist;
 
+import com.jgroups.chat.gui.common.ErrorDisplayingAwareView;
 import javafx.application.Platform;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextInputDialog;
@@ -9,12 +9,10 @@ import javafx.scene.layout.VBox;
 
 import java.util.Optional;
 
-import static javafx.scene.control.Alert.AlertType;
-
 /**
  * Created by novy on 26.03.15.
  */
-public class ChannelListView extends VBox {
+public class ChannelListView extends VBox implements ErrorDisplayingAwareView {
 
     private ChannelListViewPresenter presenter;
     private Label channelListWithUsers;
@@ -35,15 +33,6 @@ public class ChannelListView extends VBox {
         connectToChannelButton.setOnMouseClicked(mouseEvent -> presenter.handleConnectToChannelButtonClicked());
 
         getChildren().addAll(channelListWithUsers, connectToChannelButton);
-    }
-
-    void showErrorDialog(String title, String errorMessage) {
-        Alert alert = new Alert(AlertType.ERROR);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(errorMessage);
-
-        alert.showAndWait();
     }
 
     void askForChannelToConnect() {

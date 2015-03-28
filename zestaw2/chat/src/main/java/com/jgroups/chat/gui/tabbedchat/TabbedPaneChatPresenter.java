@@ -40,25 +40,28 @@ public class TabbedPaneChatPresenter extends AbstractPresenter<TabbedPaneChatVie
 
     @Subscribe
     public void on(ConnectToChannelRequestedEvent event) {
-        // todo REFACTOR
         final String channelName = event.channel();
 
         final EventBus channelEventBus = new EventBus();
         final Receiver channelMessageReceiver = channelReceiverFor(channelName, channelEventBus);
-        JChannel channel = null;
+
         try {
-            channel = buildChannel(nickname, channelName, channelMessageReceiver);
+            final JChannel channel = buildChannel(nickname, channelName, channelMessageReceiver);
             channel.connect(channelName);
+            final ChannelTabPresenter channelTabPresenter = tabPresenterFor(eventBus, channelEventBus, channel);
+
+            channelTabPresenters.put(channelName, channelTabPresenter);
+
+            final ChannelTab channelTab = new ChannelTab(event.channel(), channelTabPresenter);
+            view.addTab(channelTab);
+            manager.sendJoinMessage(nickname, channelName);
         } catch (Exception e) {
             e.printStackTrace();
+            view.showErrorDialog(
+                    "Error",
+                    "Couldn't connect!"
+            );
         }
-        final ChannelTabPresenter channelTabPresenter = tabPresenterFor(eventBus, channelEventBus, channel);
-
-        channelTabPresenters.put(channelName, channelTabPresenter);
-
-        final ChannelTab channelTab = new ChannelTab(event.channel(), channelTabPresenter);
-        view.addTab(channelTab);
-        manager.sendJoinMessage(nickname, channelName);
     }
 
     private Receiver channelReceiverFor(String channelName, EventBus eventBus) {
@@ -88,6 +91,14 @@ public class TabbedPaneChatPresenter extends AbstractPresenter<TabbedPaneChatVie
 
     public void tabClosed(String channelName) {
         channelTabPresenters.remove(channelName);
-        manager.sendLeaveMessage(nickname, channelName);
+        try {
+            manager.sendLeaveMessage(nickname, channelName);
+        } catch (Exception e) {
+            view.showErrorDialog(
+                    "Error",
+                    "There was an error leaving!"
+            );
+            e.printStackTrace();
+        }
     }
 }
