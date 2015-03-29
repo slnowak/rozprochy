@@ -25,7 +25,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>com.jgroups.chat.consoleclient.Chat</mainClass>
+                            <mainClass>com.jgroups.chat.gui.App</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>
