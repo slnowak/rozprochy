@@ -12,7 +12,7 @@ public class TabbedPaneChatView extends TabPane implements ErrorDisplayingAwareV
 
     private static final int WIDTH = 800;
     private static final int HEIGHT = 600;
-    private static final int TAB_WIDTH = 800/4;
+    private static final int TAB_WIDTH = 800 / 4;
 
     private final TabbedPaneChatPresenter presenter;
 
