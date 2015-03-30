@@ -15,8 +15,6 @@ import java.util.Optional;
  */
 public class JChannelFactory {
 
-    private static final String DEFAULT_HOSTNAME = "230.0.0.1";
-
     public static JChannel channelFor(String channelName, Receiver receiver) throws Exception {
         return channelFor(channelName, null, receiver);
     }
@@ -35,8 +33,10 @@ public class JChannelFactory {
 
     private static ProtocolStack defaultProtocolStackForAddress(String hostName) throws Exception {
 
-        final String inetAddressName = Optional.ofNullable(hostName).orElse(DEFAULT_HOSTNAME);
-        final Protocol udp = new UDP().setValue("mcast_group_addr", InetAddress.getByName(inetAddressName));
+        final Protocol udp = new UDP();
+        if (hostName != null) {
+            udp.setValue("mcast_group_addr", InetAddress.getByName(hostName));
+        }
 
         return new ProtocolStack()
                 .addProtocol(udp)

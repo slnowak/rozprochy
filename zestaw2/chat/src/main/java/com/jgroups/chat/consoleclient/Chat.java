@@ -22,7 +22,7 @@ public class Chat {
     private final EventBus globalEventBus = new EventBus();
     private final Map<String, STDOutMessageWriter> channelWriters = Maps.newHashMap();
     private static final int GETTING_STATE_TIMEOUT = 0;
-    private static final String CHAT_MANAGEMENT_CHANNEL_NAME = "ChatManagement768264";
+    private static final String CHAT_MANAGEMENT_CHANNEL_NAME = "ChatManagement768624";
     private static Scanner scanner = new Scanner(System.in);
     private String userName;
     private ChatManager chatManager;

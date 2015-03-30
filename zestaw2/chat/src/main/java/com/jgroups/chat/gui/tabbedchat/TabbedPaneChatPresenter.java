@@ -20,7 +20,7 @@ import java.util.Map;
 public class TabbedPaneChatPresenter extends AbstractPresenter<TabbedPaneChatView> {
 
     private static final int GETTING_STATE_TIMEOUT = 0;
-    private static final String CHAT_MANAGEMENT_CHANNEL_NAME = "ChatManagement768264";
+    private static final String CHAT_MANAGEMENT_CHANNEL_NAME = "ChatManagement768624";
     private String nickname = "undefined";
 
     private final EventBus eventBus;
