@@ -1,5 +1,6 @@
 package com.rmi.game;
 
+import com.rmi.game.board.BoardCell;
 import com.rmi.game.board.IBoard;
 
 import java.io.Serializable;
@@ -11,7 +12,7 @@ import java.rmi.RemoteException;
  */
 public interface Player extends Remote, Serializable {
 
-    void doMove(IBoard board) throws RemoteException;
+    void doMove(IBoard board, BoardCell marker) throws RemoteException;
 
     default void onWin() throws RemoteException {
     }
@@ -24,7 +25,11 @@ public interface Player extends Remote, Serializable {
 
     }
 
-    default void onBoardChanged(String boardRepresentation) throws RemoteException{
+    default void onWaiting() throws RemoteException {
+
+    }
+
+    default void onBoardChanged(String boardRepresentation) throws RemoteException {
     }
 
     String nick() throws RemoteException;

@@ -8,6 +8,7 @@ import com.rmi.game.board.BoardCell;
 import java.io.IOException;
 import java.rmi.Naming;
 import java.util.Properties;
+import java.util.Scanner;
 
 /**
  * Created by novy on 18.04.15.
@@ -45,8 +46,12 @@ public class TicTacToeClient {
                 + ":" + client.rmiServerPort + "/" + client.rmiServerName);
 
 
-        final Player player = new HumanPlayer(args[0], BoardCell.CROSS);
+        final Player player = new HumanPlayer(args[0]);
         serverService.register(player);
-        serverService.play(player, GameType.SINGLE_PLAYER);
+
+        System.out.println("Choose game type: 1 - Single, 2 - Multi");
+        int choose = new Scanner(System.in).nextInt();
+        final GameType gameType = choose == 1 ? GameType.SINGLE_PLAYER : GameType.MULTI_PLAYER;
+        serverService.play(player, gameType);
     }
 }

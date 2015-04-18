@@ -1,8 +1,11 @@
 package com.rmi.game;
 
-import com.rmi.game.board.Board;
+import com.google.common.collect.ImmutableMap;
+import com.rmi.game.board.BoardCell;
+import com.rmi.game.board.IBoard;
 
 import java.rmi.RemoteException;
+import java.util.Map;
 
 /**
  * Created by novy on 18.04.15.
@@ -11,12 +14,21 @@ public class GameCoordinator {
 
     private final Player playerOne;
     private final Player playerTwo;
-    private final Board board;
+    private final IBoard board;
 
-    public GameCoordinator(Player playerOne, Player playerTwo, Board board) {
+    private final Map<Player, BoardCell> markers;
+
+
+    public GameCoordinator(Player playerOne, Player playerTwo, IBoard board) {
         this.playerOne = playerOne;
         this.playerTwo = playerTwo;
         this.board = board;
+
+        markers = ImmutableMap.of(
+                playerOne, BoardCell.CROSS,
+                playerTwo, BoardCell.NOUGHT
+        );
+
     }
 
     public void coordinate() throws RemoteException {
@@ -26,7 +38,7 @@ public class GameCoordinator {
             final Player currentPlayer = determineCurrentPlayer(move);
             final Player waitingPlayer = determineWaitingPlayer(move);
 
-            currentPlayer.doMove(board);
+            currentPlayer.doMove(board, markers.get(currentPlayer));
 
             currentPlayer.onBoardChanged(board.toString());
             waitingPlayer.onBoardChanged(board.toString());

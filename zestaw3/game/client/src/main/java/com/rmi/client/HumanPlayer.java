@@ -5,6 +5,7 @@ import com.rmi.game.board.BoardCell;
 import com.rmi.game.board.Coordinates;
 import com.rmi.game.board.IBoard;
 import com.rmi.game.board.Movement;
+import lombok.EqualsAndHashCode;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -13,18 +14,18 @@ import java.util.Scanner;
 /**
  * Created by novy on 18.04.15.
  */
+
+@EqualsAndHashCode
 public class HumanPlayer extends UnicastRemoteObject implements Player {
 
     private final String nick;
-    private final BoardCell marker;
 
-    public HumanPlayer(String nick, BoardCell marker) throws RemoteException {
+    public HumanPlayer(String nick) throws RemoteException {
         this.nick = nick;
-        this.marker = marker;
     }
 
     @Override
-    public void doMove(IBoard board) throws RemoteException {
+    public void doMove(IBoard board, BoardCell marker) throws RemoteException {
 
         final Scanner stdIn = new Scanner(System.in);
 
@@ -63,6 +64,11 @@ public class HumanPlayer extends UnicastRemoteObject implements Player {
     @Override
     public void onBoardChanged(String boardRepresentation) {
         System.out.println(boardRepresentation);
+    }
+
+    @Override
+    public void onWaiting() throws RemoteException {
+        System.out.println("Waiting for another player to connect... Stay tuned...");
     }
 
     @Override
