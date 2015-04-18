@@ -1,9 +1,10 @@
 package com.rmi.client;
 
+import com.rmi.game.GameType;
 import com.rmi.game.Player;
 import com.rmi.game.TicTacToeService;
+import com.rmi.game.board.BoardCell;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.rmi.Naming;
 import java.util.Properties;
@@ -43,6 +44,9 @@ public class TicTacToeClient {
         final TicTacToeService serverService = (TicTacToeService) Naming.lookup("rmi://" + client.rmiServerAddress
                 + ":" + client.rmiServerPort + "/" + client.rmiServerName);
 
-        serverService.register(null);
+
+        final Player player = new HumanPlayer(args[0], BoardCell.CROSS);
+        serverService.register(player);
+        serverService.play(player, GameType.SINGLE_PLAYER);
     }
 }

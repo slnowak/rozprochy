@@ -2,7 +2,6 @@ package com.rmi.server;
 
 import com.rmi.game.TicTacToeService;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.rmi.Naming;
 import java.rmi.Remote;

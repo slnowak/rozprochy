@@ -1,4 +1,4 @@
-package com.rmi.game;
+package com.rmi.game.board;
 
 /**
  * Created by novy on 18.04.15.

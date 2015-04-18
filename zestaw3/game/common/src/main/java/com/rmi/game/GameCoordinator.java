@@ -1,5 +1,9 @@
 package com.rmi.game;
 
+import com.rmi.game.board.Board;
+
+import java.rmi.RemoteException;
+
 /**
  * Created by novy on 18.04.15.
  */
@@ -15,29 +19,36 @@ public class GameCoordinator {
         this.board = board;
     }
 
-    public void coordinate() {
-        final int maximumMoves = Board.ROWS * Board.ROWS;
-
-        System.out.println(board);
+    public void coordinate() throws RemoteException {
+        final int maximumMoves = Constants.BOARD_ROWS * Constants.BOARD_COLUMNS;
 
         for (int move = 0; move <= maximumMoves; ++move) {
             final Player currentPlayer = determineCurrentPlayer(move);
+            final Player waitingPlayer = determineWaitingPlayer(move);
+
             currentPlayer.doMove(board);
 
-            System.out.println(board);
+            currentPlayer.onBoardChanged(board.toString());
+            waitingPlayer.onBoardChanged(board.toString());
 
             if (board.alreadyFinished()) {
-                System.out.println("Player " + currentPlayer.nick() + " won");
+                currentPlayer.onWin();
+                waitingPlayer.onLoss();
                 return;
             }
         }
 
-        System.out.println("There was a draw!");
+        playerOne.onDraw();
+        playerTwo.onDraw();
 
     }
 
     private Player determineCurrentPlayer(int move) {
         return move % 2 == 0 ? playerOne : playerTwo;
+    }
+
+    private Player determineWaitingPlayer(int move) {
+        return move % 2 == 1 ? playerOne : playerTwo;
     }
 
 }

@@ -1,9 +1,11 @@
-package com.rmi.game;
+package com.rmi.game.board;
+
+import java.io.Serializable;
 
 /**
  * Created by novy on 18.04.15.
  */
-class WinningSequenceFinder {
+class WinningSequenceFinder implements Serializable {
 
     private final BoardCell[][] board;
     private final int columns;
@@ -90,7 +92,7 @@ class WinningSequenceFinder {
     }
 
     public boolean thereIsAWinningRightDiagonal() {
-        for (int i = columns - 1; i >= sequenceLength -1; --i) {
+        for (int i = columns - 1; i >= sequenceLength - 1; --i) {
             for (int j = 0; j <= rows - sequenceLength; ++j) {
                 final BoardCell cellToCompare = board[i][j];
                 boolean foundWinningSequence = true;

@@ -1,9 +1,13 @@
 package com.rmi.server;
 
-import com.rmi.game.Board;
-import com.rmi.game.BoardCell;
 import com.rmi.game.Player;
+import com.rmi.game.board.BoardCell;
+import com.rmi.game.board.Coordinates;
+import com.rmi.game.board.IBoard;
+import com.rmi.game.board.Movement;
 
+import java.rmi.RemoteException;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -23,16 +27,16 @@ public class ComputerPlayer implements Player {
     }
 
     @Override
-    public void doMove(Board board) {
+    public void doMove(IBoard board) throws RemoteException {
 
-        int x, y;
+        final List<Coordinates> unmarkedCells = board.unmarkedCells();
+        Coordinates randomUnmarkedCell = unmarkedCells.get(
+                randomGenerator.nextInt(unmarkedCells.size())
+        );
 
-        do {
-            x = randomGenerator.nextInt(Board.COLUMNS);
-            y = randomGenerator.nextInt(Board.ROWS);
-        } while (!board.movePossible(x, y));
-
-        board.markCell(x, y, marker);
+        board.makeMovement(Movement.of(
+                randomUnmarkedCell, marker
+        ));
     }
 
     @Override
