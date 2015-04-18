@@ -2,7 +2,7 @@ package com.rmi.server;
 
 import com.rmi.game.GameCoordinator;
 import com.rmi.game.Player;
-import com.rmi.game.board.Board;
+import com.rmi.game.board.BoardImpl;
 
 import java.rmi.RemoteException;
 
@@ -12,7 +12,7 @@ import java.rmi.RemoteException;
 public interface StartingGameTrait {
 
     default void startGame(Player playerOne, Player playerTwo) throws RemoteException {
-        new GameCoordinator(playerOne, playerTwo, new Board())
+        new GameCoordinator(playerOne, playerTwo, new BoardImpl())
                 .coordinate();
     }
 }

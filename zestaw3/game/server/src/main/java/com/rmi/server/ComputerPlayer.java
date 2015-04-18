@@ -3,7 +3,7 @@ package com.rmi.server;
 import com.rmi.game.Player;
 import com.rmi.game.board.BoardCell;
 import com.rmi.game.board.Coordinates;
-import com.rmi.game.board.IBoard;
+import com.rmi.game.board.Board;
 import com.rmi.game.board.Movement;
 import lombok.EqualsAndHashCode;
 
@@ -28,7 +28,7 @@ public class ComputerPlayer implements Player {
     }
 
     @Override
-    public void doMove(IBoard board, BoardCell marker) throws RemoteException {
+    public void doMove(Board board, BoardCell marker) throws RemoteException {
 
         final List<Coordinates> unmarkedCells = board.unmarkedCells();
         Coordinates randomUnmarkedCell = unmarkedCells.get(

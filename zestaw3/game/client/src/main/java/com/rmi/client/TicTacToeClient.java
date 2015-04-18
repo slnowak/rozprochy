@@ -3,7 +3,6 @@ package com.rmi.client;
 import com.rmi.game.GameType;
 import com.rmi.game.Player;
 import com.rmi.game.TicTacToeService;
-import com.rmi.game.board.BoardCell;
 
 import java.io.IOException;
 import java.rmi.Naming;

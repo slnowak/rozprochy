@@ -10,7 +10,6 @@ public class MovementTest {
     @Test(expected = IllegalArgumentException.class)
     public void shouldThrowAnExceptionGivenEMPTYMarker() throws Exception {
 
-
         Movement.of(
                 Coordinates.of(0, 0),
                 BoardCell.EMPTY

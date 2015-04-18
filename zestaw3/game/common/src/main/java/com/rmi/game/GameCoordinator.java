@@ -2,7 +2,7 @@ package com.rmi.game;
 
 import com.google.common.collect.ImmutableMap;
 import com.rmi.game.board.BoardCell;
-import com.rmi.game.board.IBoard;
+import com.rmi.game.board.Board;
 
 import java.rmi.RemoteException;
 import java.util.Map;
@@ -14,12 +14,12 @@ public class GameCoordinator {
 
     private final Player playerOne;
     private final Player playerTwo;
-    private final IBoard board;
+    private final Board board;
 
     private final Map<Player, BoardCell> markers;
 
 
-    public GameCoordinator(Player playerOne, Player playerTwo, IBoard board) {
+    public GameCoordinator(Player playerOne, Player playerTwo, Board board) {
         this.playerOne = playerOne;
         this.playerTwo = playerTwo;
         this.board = board;
@@ -34,7 +34,7 @@ public class GameCoordinator {
     public void coordinate() throws RemoteException {
         final int maximumMoves = Constants.BOARD_ROWS * Constants.BOARD_COLUMNS;
 
-        for (int move = 0; move <= maximumMoves; ++move) {
+        for (int move = 0; move < maximumMoves; ++move) {
             final Player currentPlayer = determineCurrentPlayer(move);
             final Player waitingPlayer = determineWaitingPlayer(move);
 
@@ -43,7 +43,7 @@ public class GameCoordinator {
             currentPlayer.onBoardChanged(board.toString());
             waitingPlayer.onBoardChanged(board.toString());
 
-            if (board.alreadyFinished()) {
+            if (board.thereIsAWinner()) {
                 currentPlayer.onWin();
                 waitingPlayer.onLoss();
                 return;

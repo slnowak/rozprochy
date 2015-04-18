@@ -13,12 +13,10 @@ public class MarkingACell {
     @Test
     public void shouldReturnFalseAskedAboutAlreadyMarkedCell() throws Exception {
 
-        final Board objectUnderTest = new Board();
+
+        final BoardImpl objectUnderTest = new BoardImpl();
         objectUnderTest.makeMovement(
-                Movement.of(
-                        Coordinates.of(0, 0),
-                        BoardCell.CROSS
-                )
+                MovementFactory.movementOf(0, 0, BoardCell.CROSS)
         );
 
         assertThat(objectUnderTest.movePossible(Coordinates.of(0, 0))).isFalse();
@@ -27,23 +25,15 @@ public class MarkingACell {
     @Test
     public void shouldReturnFalseAskedAboutMarkingPossibilityWhenSomeoneWon() throws Exception {
 
-        final Board objectUnderTest = new Board();
+        final BoardImpl objectUnderTest = new BoardImpl();
         objectUnderTest.makeMovement(
-                Movement.of(
-                        Coordinates.of(0, 0),
-                        BoardCell.CROSS
-                )
+                MovementFactory.movementOf(0, 0, BoardCell.CROSS)
         );
         objectUnderTest.makeMovement(
-                Movement.of(
-                        Coordinates.of(0, 1),
-                        BoardCell.CROSS
-                )
+                MovementFactory.movementOf(0, 1, BoardCell.CROSS)
         );
         objectUnderTest.makeMovement(
-                Movement.of(
-                        Coordinates.of(0, 2),
-                        BoardCell.CROSS)
+                MovementFactory.movementOf(0, 2, BoardCell.CROSS)
         );
 
 
@@ -53,19 +43,13 @@ public class MarkingACell {
     @Test(expected = IllegalArgumentException.class)
     public void shouldNotBeAbleToMarkAlreadyMarkedCell() throws Exception {
 
-        final Board objectUnderTest = new Board();
+        final BoardImpl objectUnderTest = new BoardImpl();
         objectUnderTest.makeMovement(
-                Movement.of(
-                        Coordinates.of(0, 0),
-                        BoardCell.CROSS
-                )
+                MovementFactory.movementOf(0, 0, BoardCell.CROSS)
         );
 
         objectUnderTest.makeMovement(
-                Movement.of(
-                        Coordinates.of(0, 0),
-                        BoardCell.NOUGHT
-                )
+                MovementFactory.movementOf(0, 0, BoardCell.NOUGHT)
         );
 
     }
@@ -73,31 +57,19 @@ public class MarkingACell {
     @Test(expected = IllegalArgumentException.class)
     public void shouldNotBeAbleToMarkCellWhenSomeoneWon() throws Exception {
 
-        final Board objectUnderTest = new Board();
+        final BoardImpl objectUnderTest = new BoardImpl();
         objectUnderTest.makeMovement(
-                Movement.of(
-                        Coordinates.of(0, 0),
-                        BoardCell.CROSS
-                )
+                MovementFactory.movementOf(0, 0, BoardCell.CROSS)
         );
         objectUnderTest.makeMovement(
-                Movement.of(
-                        Coordinates.of(0, 1),
-                        BoardCell.CROSS
-                )
+                MovementFactory.movementOf(0, 1, BoardCell.CROSS)
         );
         objectUnderTest.makeMovement(
-                Movement.of(
-                        Coordinates.of(0, 2),
-                        BoardCell.CROSS
-                )
+                MovementFactory.movementOf(0, 2, BoardCell.CROSS)
         );
 
         objectUnderTest.makeMovement(
-                Movement.of(
-                        Coordinates.of(2, 2),
-                        BoardCell.NOUGHT
-                )
+                MovementFactory.movementOf(2, 2, BoardCell.NOUGHT)
         );
     }
 }
