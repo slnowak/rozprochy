@@ -18,7 +18,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>com.rmi.client.Hello</mainClass>
+                            <mainClass>com.rmi.client.TicTacToeClient</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>
