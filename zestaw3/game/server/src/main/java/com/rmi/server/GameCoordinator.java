@@ -1,10 +1,13 @@
-package com.rmi.game;
+package com.rmi.server;
 
 import com.google.common.collect.ImmutableMap;
+import com.rmi.game.Constants;
+import com.rmi.game.Player;
 import com.rmi.game.board.Board;
 import com.rmi.game.board.BoardCell;
 
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.Map;
 
 /**
@@ -34,6 +37,9 @@ public class GameCoordinator {
     public void coordinate() throws RemoteException {
         final int maximumMoves = Constants.BOARD_ROWS * Constants.BOARD_COLUMNS;
 
+        playerOne.onGameStarted(playerTwo.nick());
+        playerTwo.onGameStarted(playerOne.nick());
+
         for (int move = 0; move < maximumMoves; ++move) {
             final Player currentPlayer = determineCurrentPlayer(move);
             final Player waitingPlayer = determineWaitingPlayer(move);
@@ -53,6 +59,7 @@ public class GameCoordinator {
         playerOne.onDraw();
         playerTwo.onDraw();
 
+        UnicastRemoteObject.unexportObject(board, false);
     }
 
     private Player determineCurrentPlayer(int move) {

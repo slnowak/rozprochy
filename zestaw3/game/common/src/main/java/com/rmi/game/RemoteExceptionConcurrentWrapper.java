@@ -1,4 +1,4 @@
-package com.rmi.server;
+package com.rmi.game;
 
 import java.rmi.RemoteException;
 

@@ -1,6 +1,8 @@
 package com.rmi.server;
 
+import com.google.common.eventbus.EventBus;
 import com.rmi.game.Player;
+import com.rmi.game.RemoteExceptionConcurrentWrapper;
 
 import java.rmi.RemoteException;
 import java.util.Queue;
@@ -12,10 +14,12 @@ public class MultiPlayerWorker implements Runnable, StartingGameTrait {
 
     private final Player player;
     private final Queue<Player> awaitingPlayers;
+    private final EventBus eventBus;
 
-    public MultiPlayerWorker(Player player, Queue<Player> awaitingPlayers) {
+    public MultiPlayerWorker(Player player, Queue<Player> awaitingPlayers, EventBus eventBus) {
         this.player = player;
         this.awaitingPlayers = awaitingPlayers;
+        this.eventBus = eventBus;
     }
 
     @Override
@@ -34,6 +38,9 @@ public class MultiPlayerWorker implements Runnable, StartingGameTrait {
 
         if (enemy != null) {
             tryToStartAGame(enemy);
+            eventBus.post(
+                    new GameTookPlaceEvent(player, enemy)
+            );
         }
     }
 

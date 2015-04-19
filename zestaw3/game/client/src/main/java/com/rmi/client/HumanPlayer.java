@@ -76,7 +76,7 @@ public class HumanPlayer extends UnicastRemoteObject implements Player {
 
     @Override
     public void onGameStarted(String enemyNick) throws RemoteException {
-        System.out.println("Started game with " + enemyNick);
+        System.out.println("Started game with " + enemyNick + "\n");
     }
 
     @Override

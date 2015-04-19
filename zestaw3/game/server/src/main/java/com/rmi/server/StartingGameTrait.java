@@ -1,6 +1,5 @@
 package com.rmi.server;
 
-import com.rmi.game.GameCoordinator;
 import com.rmi.game.Player;
 import com.rmi.game.board.BoardImpl;
 
