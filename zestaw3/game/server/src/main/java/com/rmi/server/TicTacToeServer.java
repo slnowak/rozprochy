@@ -2,43 +2,45 @@ package com.rmi.server;
 
 import com.rmi.game.TicTacToeService;
 
-import java.io.IOException;
 import java.rmi.Naming;
 import java.rmi.Remote;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.Properties;
 
 /**
  * Created by novy on 18.04.15.
  */
 public class TicTacToeServer {
 
-    private static final String PROPERTIES_FILE = "properties.conf";
-
-    private String rmiServerAddress;
-    private String rmiServerPort;
-    private String rmiServerName;
-
-    public TicTacToeServer() throws IOException {
-        readProperties();
-    }
-
-    public void readProperties() throws IOException {
-        Properties properties = new Properties();
-//        properties.load(new FileInputStream(PROPERTIES_FILE));
-        rmiServerAddress = properties.getProperty("rmiServerAddress", "127.0.0.1");
-        rmiServerPort = properties.getProperty("rmiServerPort", "1099");
-        rmiServerName = properties.getProperty("rmiServerName", "server");
-    }
+    private static final String DEFAULT_RMI_SERVER_ADDRESS = "127.0.0.1";
+    private static final String DEFAULT_RMI_PORT = "1099";
+    private static final String DEFAULT_RMI_SERVER_NAME = "server";
 
     public static void main(String[] args) throws Exception {
+        final String rmiServerAddress = parseRmiServerAddress(args);
+        final String rmiServerPort = parseRmiPort(args);
+        final String rmiServerName = parseRmiServerName(args);
+
         final TicTacToeService service = new TicTacToeServiceImpl();
-        final TicTacToeServer server = new TicTacToeServer();
 
         final Remote remoteService = UnicastRemoteObject.exportObject(service, 0);
-        final String serviceBindPath = "rmi://" + server.rmiServerAddress
-                + ":" + server.rmiServerPort + "/" + server.rmiServerName;
+        final String serviceBindPath = createRmiPath(rmiServerAddress, rmiServerPort, rmiServerName);
 
         Naming.rebind(serviceBindPath, remoteService);
+    }
+
+    private static String createRmiPath(String rmiServerAddress, String rmiServerPort, String rmiServerName) {
+        return "rmi://" + rmiServerAddress + ":" + rmiServerPort + "/" + rmiServerName;
+    }
+
+    private static String parseRmiServerAddress(String[] args) {
+        return args.length > 0 ? args[0] : DEFAULT_RMI_SERVER_ADDRESS;
+    }
+
+    private static String parseRmiPort(String[] args) {
+        return args.length > 1 ? args[1] : DEFAULT_RMI_PORT;
+    }
+
+    private static String parseRmiServerName(String[] args) {
+        return args.length > 2 ? args[2] : DEFAULT_RMI_SERVER_NAME;
     }
 }

@@ -13,7 +13,6 @@ public class MarkingACell {
     @Test
     public void shouldReturnFalseAskedAboutAlreadyMarkedCell() throws Exception {
 
-
         final BoardImpl objectUnderTest = new BoardImpl();
         objectUnderTest.makeMovement(
                 MovementFactory.movementOf(0, 0, BoardCell.CROSS)

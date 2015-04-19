@@ -33,7 +33,8 @@ public class HumanPlayer extends UnicastRemoteObject implements Player {
         Coordinates coordinates;
 
         do {
-            System.out.println("Please type cell coords (x, y):\n");
+            // todo: add x and y validation
+            System.out.println("Please type cell coords (row, column):\n");
             x = stdIn.nextInt();
             y = stdIn.nextInt();
             coordinates = Coordinates.of(x, y);
@@ -44,7 +45,6 @@ public class HumanPlayer extends UnicastRemoteObject implements Player {
                 Movement.of(coordinates, marker)
         );
     }
-
 
     @Override
     public void onWin() throws RemoteException {
