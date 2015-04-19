@@ -1,9 +1,10 @@
 package com.rmi.client;
 
+import com.rmi.game.Constants;
 import com.rmi.game.Player;
+import com.rmi.game.board.Board;
 import com.rmi.game.board.BoardCell;
 import com.rmi.game.board.Coordinates;
-import com.rmi.game.board.Board;
 import com.rmi.game.board.Movement;
 import lombok.EqualsAndHashCode;
 
@@ -33,22 +34,24 @@ public class HumanPlayer extends UnicastRemoteObject implements Player {
         Coordinates coordinates;
 
         do {
-            // todo: add x and y validation
             System.out.println("Please type cell coords (row, column):\n");
             x = stdIn.nextInt();
             y = stdIn.nextInt();
-            coordinates = Coordinates.of(x, y);
 
-        } while (!board.movePossible(coordinates));
+        } while (!coordsValid(x, y) || !board.movePossible(Coordinates.of(x, y)));
 
         board.makeMovement(
-                Movement.of(coordinates, marker)
+                Movement.of(Coordinates.of(x, y), marker)
         );
+    }
+
+    private boolean coordsValid(int row, int column) {
+        return row >= 0 && row < Constants.BOARD_ROWS && column >= 0 && column < Constants.BOARD_COLUMNS;
     }
 
     @Override
     public void onWin() throws RemoteException {
-        System.out.println("Congratulations, you won!");
+        System.out.println("Congratulations, you're the winner!");
     }
 
     @Override
@@ -69,6 +72,16 @@ public class HumanPlayer extends UnicastRemoteObject implements Player {
     @Override
     public void onWaiting() throws RemoteException {
         System.out.println("Waiting for another player to connect... Stay tuned...");
+    }
+
+    @Override
+    public void onGameStarted(String enemyNick) throws RemoteException {
+        System.out.println("Started game with " + enemyNick);
+    }
+
+    @Override
+    public void cleanup() throws RemoteException {
+        UnicastRemoteObject.unexportObject(this, false);
     }
 
     @Override

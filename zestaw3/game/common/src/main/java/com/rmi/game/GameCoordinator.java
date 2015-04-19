@@ -1,8 +1,8 @@
 package com.rmi.game;
 
 import com.google.common.collect.ImmutableMap;
-import com.rmi.game.board.BoardCell;
 import com.rmi.game.board.Board;
+import com.rmi.game.board.BoardCell;
 
 import java.rmi.RemoteException;
 import java.util.Map;

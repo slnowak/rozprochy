@@ -1,9 +1,9 @@
 package com.rmi.server;
 
 import com.rmi.game.Player;
+import com.rmi.game.board.Board;
 import com.rmi.game.board.BoardCell;
 import com.rmi.game.board.Coordinates;
-import com.rmi.game.board.Board;
 import com.rmi.game.board.Movement;
 import lombok.EqualsAndHashCode;
 

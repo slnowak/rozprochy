@@ -19,11 +19,14 @@ public class SinglePlayerWorker implements Runnable, StartingGameTrait {
     public void run() {
 
         final Player enemy = new ComputerPlayer();
+        tryToStartAGame(enemy);
+    }
+
+    private void tryToStartAGame(Player enemy) {
         try {
             startGame(player, enemy);
-            // fix
         } catch (RemoteException e) {
-            throw new RuntimeException();
+            throw new RemoteExceptionConcurrentWrapper(e);
         }
     }
 }

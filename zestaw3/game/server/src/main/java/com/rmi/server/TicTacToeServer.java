@@ -16,6 +16,8 @@ public class TicTacToeServer {
     private static final String DEFAULT_RMI_SERVER_NAME = "server";
 
     public static void main(String[] args) throws Exception {
+//        System.setProperty("java.rmi.server.hostname", "192.168.1.103");
+
         final String rmiServerAddress = parseRmiServerAddress(args);
         final String rmiServerPort = parseRmiPort(args);
         final String rmiServerName = parseRmiServerName(args);

@@ -1,7 +1,7 @@
 package com.rmi.game;
 
-import com.rmi.game.board.BoardCell;
 import com.rmi.game.board.Board;
+import com.rmi.game.board.BoardCell;
 
 import java.io.Serializable;
 import java.rmi.Remote;
@@ -29,7 +29,15 @@ public interface Player extends Remote, Serializable {
 
     }
 
+    default void onGameStarted(String enemyNick) throws RemoteException {
+
+    }
+
     default void onBoardChanged(String boardRepresentation) throws RemoteException {
+    }
+
+    default void cleanup() throws RemoteException {
+
     }
 
     String nick() throws RemoteException;

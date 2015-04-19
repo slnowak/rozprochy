@@ -17,19 +17,20 @@ import java.util.concurrent.Executors;
  */
 public class TicTacToeServiceImpl implements TicTacToeService {
 
+    private static final int N_THREADS = 5;
     final Set<Player> registeredPlayers = Sets.newConcurrentHashSet();
-    final Queue<Player> awaitingForMultiplayer = Queues.newLinkedBlockingQueue();
-    final ExecutorService executorService = Executors.newFixedThreadPool(5);
+    final Queue<Player> awaitingForMultiplayer = Queues.newArrayDeque();
+    final ExecutorService executorService = Executors.newFixedThreadPool(N_THREADS);
 
     @Override
     public void register(Player player) throws RemoteException {
-        // todo : check for existing
+        synchronized (registeredPlayers) {
+            if (registeredPlayers.contains(player)) {
+                throw new UserAlreadyExistsException();
+            }
+            registeredPlayers.add(player);
+        }
         registeredPlayers.add(player);
-    }
-
-    @Override
-    public void unregister(Player player) throws RemoteException {
-        registeredPlayers.remove(player);
     }
 
     @Override
@@ -39,6 +40,8 @@ public class TicTacToeServiceImpl implements TicTacToeService {
         } else {
             executorService.submit(new MultiPlayerWorker(player, awaitingForMultiplayer));
         }
+
+        // todo: unregister
     }
 
 }

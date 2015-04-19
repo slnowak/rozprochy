@@ -20,27 +20,38 @@ public class MultiPlayerWorker implements Runnable, StartingGameTrait {
 
     @Override
     public void run() {
+        // todo: consider blockingqueue
         Player enemy = null;
 
         synchronized (awaitingPlayers) {
             if (awaitingPlayers.isEmpty()) {
                 awaitingPlayers.add(player);
-                try {
-                    player.onWaiting();
-                } catch (RemoteException e) {
-                    e.printStackTrace();
-                }
+                tryToNotifyPlayerOnWaiting();
             } else {
                 enemy = awaitingPlayers.remove();
             }
         }
 
         if (enemy != null) {
-            try {
-                startGame(player, enemy);
-            } catch (RemoteException e) {
-                e.printStackTrace();
-            }
+            tryToStartAGame(enemy);
+        }
+    }
+
+    private void tryToNotifyPlayerOnWaiting() {
+        try {
+            player.onWaiting();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+            throw new RemoteExceptionConcurrentWrapper(e);
+        }
+    }
+
+    private void tryToStartAGame(Player enemy) {
+        try {
+            startGame(player, enemy);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+            throw new RemoteExceptionConcurrentWrapper(e);
         }
     }
 }

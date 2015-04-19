@@ -11,8 +11,6 @@ public interface TicTacToeService extends Remote, Serializable {
 
     void register(Player player) throws RemoteException;
 
-    void unregister(Player player) throws RemoteException;
-
     void play(Player player, GameType gameType) throws RemoteException;
 
 }

@@ -1,10 +1,13 @@
 package com.rmi.client;
 
+import com.google.common.collect.ImmutableMap;
 import com.rmi.game.GameType;
 import com.rmi.game.Player;
 import com.rmi.game.TicTacToeService;
 
 import java.rmi.Naming;
+import java.rmi.server.UnicastRemoteObject;
+import java.util.Map;
 import java.util.Scanner;
 
 /**
@@ -16,6 +19,11 @@ public class TicTacToeClient {
     private static final String DEFAULT_RMI_PORT = "1099";
     private static final String DEFAULT_RMI_SERVER_NAME = "server";
     private static final String DEFAULT_NICK = "Player";
+
+    private static final Map<Integer, GameType> gameTypes = ImmutableMap.of(
+            1, GameType.SINGLE_PLAYER,
+            2, GameType.MULTI_PLAYER
+    );
 
     public static void main(String[] args) throws Exception {
         final String rmiServerAddress = parseRmiServerAddress(args);
@@ -31,10 +39,19 @@ public class TicTacToeClient {
         serverService.register(player);
 
         System.out.println("Choose game type: 1 - Single, 2 - Multi");
-        // todo: check
         int choose = new Scanner(System.in).nextInt();
-        final GameType gameType = choose == 1 ? GameType.SINGLE_PLAYER : GameType.MULTI_PLAYER;
-        serverService.play(player, gameType);
+
+        if (!chosenValidGameType(choose)) {
+            System.out.println("Invalid game type, please try to connect again");
+            UnicastRemoteObject.unexportObject(player, false);
+            return;
+        }
+
+        serverService.play(player, gameTypes.get(choose));
+    }
+
+    private static boolean chosenValidGameType(int gameType) {
+        return gameTypes.keySet().contains(gameType);
     }
 
     private static String createRmiPath(String rmiServerAddress, String rmiServerPort, String rmiServerName) {
