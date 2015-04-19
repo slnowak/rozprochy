@@ -81,7 +81,7 @@ public class HumanPlayer extends UnicastRemoteObject implements Player {
 
     @Override
     public void cleanup() throws RemoteException {
-        UnicastRemoteObject.unexportObject(this, false);
+        UnicastRemoteObject.unexportObject(this, true);
     }
 
     @Override

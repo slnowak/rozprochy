@@ -50,7 +50,6 @@ public class TicTacToeServiceImpl implements TicTacToeService {
             registeredPlayerNicknames.remove(playerTwo.nick());
         }
 
-        // todo: doesn't work for some reason
         playerOne.cleanup();
         playerTwo.cleanup();
     }
