@@ -1,13 +1,11 @@
 package com.sr.bankaccountmanager.account.infrastructure.evictor;
 
-import Bank.Account;
 import Ice.Current;
 import Ice.LocalObjectHolder;
 import com.sr.bankaccountmanager.account.domain.AccountRepository;
 import com.sr.bankaccountmanager.account.domain.DomainAccount;
 import com.sr.bankaccountmanager.account.infrastructure.evictor.baseevictor.EvictorBase;
-
-import java.util.Optional;
+import org.apache.commons.lang3.ObjectUtils;
 
 /**
  * Created by novy on 16.05.15.
@@ -25,23 +23,13 @@ public class AccountEvictor extends EvictorBase implements Ice.ServantLocator {
 
     @Override
     public Ice.Object add(Current current, LocalObjectHolder cookie) {
-        Account account = null;
 
-        // todo: refactor
         final String accountId = current.id.name;
         cookie.value = accountId;
-        System.out.println(accountId);
-        final Optional<DomainAccount> possibleCachedAccount = cache.load(accountId);
-        if (possibleCachedAccount.isPresent()) {
-            account = possibleCachedAccount.get();
-        } else {
-            final Optional<DomainAccount> possiblePersistentAccount = repository.load(accountId);
-            if (possibleCachedAccount.isPresent()) {
-                account = possiblePersistentAccount.get();
-            }
-        }
 
-        return account;
+        return ObjectUtils.firstNonNull(
+                cache.load(accountId), repository.load(accountId)
+        );
     }
 
     @Override

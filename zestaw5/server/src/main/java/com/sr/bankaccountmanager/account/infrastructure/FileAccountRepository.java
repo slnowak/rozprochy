@@ -1,6 +1,5 @@
 package com.sr.bankaccountmanager.account.infrastructure;
 
-import Bank.Account;
 import Bank.NoSuchAccount;
 import com.google.common.io.Files;
 import com.sr.bankaccountmanager.account.domain.AccountRepository;
@@ -11,8 +10,6 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.Serializable;
-import java.util.Optional;
 
 /**
  * Created by novy on 16.05.15.
@@ -34,14 +31,14 @@ public class FileAccountRepository implements AccountRepository {
     }
 
     @Override
-    public Optional<DomainAccount> load(String accountId) {
+    public DomainAccount load(String accountId) {
         try {
             final byte[] serializedAccount = FileUtils.readFileToByteArray(
                     new File(makeFilePath(accountId))
             );
-            return Optional.of(SerializationUtils.deserialize(serializedAccount));
+            return SerializationUtils.deserialize(serializedAccount);
         } catch (IOException e) {
-            return Optional.empty();
+            return null;
         }
     }
 

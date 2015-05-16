@@ -25,10 +25,8 @@ public class InMemoryAccountRepository implements AccountRepository, ByAccountNu
     }
 
     @Override
-    public Optional<DomainAccount> load(String accountId) {
-        return Optional.ofNullable(
-                accounts.get(accountId)
-        );
+    public DomainAccount load(String accountId) {
+        return accounts.get(accountId);
     }
 
     @Override
