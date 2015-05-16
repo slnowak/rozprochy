@@ -1,4 +1,4 @@
-package com.sr.bankaccountmanager.account.evictor.baseevictor;
+package com.sr.bankaccountmanager.account.infrastructure.evictor.baseevictor;
 
 /**
  * Created by novy on 16.05.15.
@@ -105,7 +105,7 @@ public abstract class EvictorBase implements Ice.ServantLocator {
 
     private java.util.Map<Ice.Identity, EvictorEntry> _map =
             new java.util.HashMap<>();
-    private com.sr.bankaccountmanager.account.evictor.baseevictor.LinkedList<Ice.Identity> _queue =
-            new com.sr.bankaccountmanager.account.evictor.baseevictor.LinkedList<>();
+    private com.sr.bankaccountmanager.account.infrastructure.evictor.baseevictor.LinkedList<Ice.Identity> _queue =
+            new com.sr.bankaccountmanager.account.infrastructure.evictor.baseevictor.LinkedList<>();
     private int _size;
 }

@@ -1,10 +1,11 @@
-package com.sr.bankaccountmanager.account.evictor;
+package com.sr.bankaccountmanager.account.infrastructure.evictor;
 
 import Bank.Account;
 import Ice.Current;
 import Ice.LocalObjectHolder;
-import com.sr.bankaccountmanager.account.AccountRepository;
-import com.sr.bankaccountmanager.account.evictor.baseevictor.EvictorBase;
+import com.sr.bankaccountmanager.account.domain.AccountRepository;
+import com.sr.bankaccountmanager.account.domain.DomainAccount;
+import com.sr.bankaccountmanager.account.infrastructure.evictor.baseevictor.EvictorBase;
 
 import java.util.Optional;
 
@@ -30,11 +31,11 @@ public class AccountEvictor extends EvictorBase implements Ice.ServantLocator {
         final String accountId = current.id.name;
         cookie.value = accountId;
         System.out.println(accountId);
-        final Optional<Account> possibleCachedAccount = cache.load(accountId);
+        final Optional<DomainAccount> possibleCachedAccount = cache.load(accountId);
         if (possibleCachedAccount.isPresent()) {
             account = possibleCachedAccount.get();
         } else {
-            final Optional<Account> possiblePersistentAccount = repository.load(accountId);
+            final Optional<DomainAccount> possiblePersistentAccount = repository.load(accountId);
             if (possibleCachedAccount.isPresent()) {
                 account = possiblePersistentAccount.get();
             }
@@ -46,7 +47,7 @@ public class AccountEvictor extends EvictorBase implements Ice.ServantLocator {
     @Override
     public void evict(Ice.Object servant, java.lang.Object cookie) {
         repository.save(
-                (String) cookie, (Account) servant
+                (String) cookie, (DomainAccount) servant
         );
     }
 }

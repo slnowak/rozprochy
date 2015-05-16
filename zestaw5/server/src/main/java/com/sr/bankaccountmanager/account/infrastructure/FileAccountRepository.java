@@ -1,9 +1,13 @@
-package com.sr.bankaccountmanager.account;
+package com.sr.bankaccountmanager.account.infrastructure;
 
 import Bank.Account;
+import Bank.NoSuchAccount;
 import com.google.common.io.Files;
+import com.sr.bankaccountmanager.account.domain.AccountRepository;
+import com.sr.bankaccountmanager.account.domain.DomainAccount;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.SerializationUtils;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,9 +23,8 @@ public class FileAccountRepository implements AccountRepository {
     private static final String PATH_PREFIX = "data/accounts/";
 
     @Override
-    public void save(String accountId, Account account) {
-//        todo: serializable cast hack
-        final byte[] serializedAccount = SerializationUtils.serialize((Serializable) account);
+    public void save(String accountId, DomainAccount account) {
+        final byte[] serializedAccount = SerializationUtils.serialize(account);
         try {
             Files.write(serializedAccount, new File(makeFilePath(accountId)));
         } catch (IOException e) {
@@ -31,7 +34,7 @@ public class FileAccountRepository implements AccountRepository {
     }
 
     @Override
-    public Optional<Account> load(String accountId) {
+    public Optional<DomainAccount> load(String accountId) {
         try {
             final byte[] serializedAccount = FileUtils.readFileToByteArray(
                     new File(makeFilePath(accountId))
@@ -40,6 +43,11 @@ public class FileAccountRepository implements AccountRepository {
         } catch (IOException e) {
             return Optional.empty();
         }
+    }
+
+    @Override
+    public void remove(String accountId) throws NoSuchAccount {
+        throw new NotImplementedException();
     }
 
     private String makeFilePath(String accountId) {

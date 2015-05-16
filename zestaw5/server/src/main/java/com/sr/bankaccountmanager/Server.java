@@ -1,11 +1,13 @@
 package com.sr.bankaccountmanager;
 
-import Bank.BankManager;
 import Ice.Identity;
 import Ice.ServantLocator;
-import com.sr.bankaccountmanager.account.InMemoryAccountRepository;
-import com.sr.bankaccountmanager.account.evictor.AccountEvictor;
-import com.sr.bankaccountmanager.account.FileAccountRepository;
+import com.sr.bankaccountmanager.account.domain.AccountFactory;
+import com.sr.bankaccountmanager.account.domain.MoneyTransferService;
+import com.sr.bankaccountmanager.account.infrastructure.InMemoryAccountRepository;
+import com.sr.bankaccountmanager.account.infrastructure.evictor.AccountEvictor;
+import com.sr.bankaccountmanager.account.infrastructure.FileAccountRepository;
+import com.sr.bankaccountmanager.manager.domain.BankManager;
 
 /**
  * Created by novy on 16.05.15.
@@ -19,11 +21,15 @@ public class Server {
 
 
         final InMemoryAccountRepository cache = new InMemoryAccountRepository();
-        final ServantLocator accountEvictor = new AccountEvictor(0, cache, new FileAccountRepository());
+        final FileAccountRepository repository = new FileAccountRepository();
+        final MoneyTransferService moneyTransferService = new MoneyTransferService(cache);
+        final AccountFactory accountFactory = new AccountFactory(moneyTransferService);
+
+        final ServantLocator accountEvictor = new AccountEvictor(0, cache, repository);
         adapter.addServantLocator(accountEvictor, "accounts");
 
         Identity identity = communicator.stringToIdentity("managers/bankManager");
-        final BankManager bankManagerServant = new BankManagerImpl(cache);
+        final Bank.BankManager bankManagerServant = new BankManager(cache, accountFactory);
                 adapter.add(bankManagerServant, identity);
 
 

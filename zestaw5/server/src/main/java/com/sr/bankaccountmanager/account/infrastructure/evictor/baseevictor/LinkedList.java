@@ -7,7 +7,7 @@
 //
 // **********************************************************************
 
-package com.sr.bankaccountmanager.account.evictor.baseevictor;
+package com.sr.bankaccountmanager.account.infrastructure.evictor.baseevictor;
 
 //
 // Stripped down LinkedList implementation for use in the Evictor. The

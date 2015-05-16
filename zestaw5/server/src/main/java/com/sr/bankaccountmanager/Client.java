@@ -16,7 +16,7 @@ public class Client {
         BankManagerPrx bankManager = BankManagerPrxHelper.checkedCast(base);
 
         final StringHolder accountIdHolder = new StringHolder();
-        final PersonalData personalData = new PersonalData("", "", "", "");
+        final PersonalData personalData = new PersonalData("s", "s", "s", "s");
         bankManager.createAccount(personalData, accountType.SILVER, accountIdHolder);
 
         final AccountPrx accountPrx = AccountPrxHelper.checkedCast(
