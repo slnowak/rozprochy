@@ -12,23 +12,43 @@ public class Client {
         Ice.Communicator communicator = Ice.Util.initialize(args);
 
         Ice.ObjectPrx base = communicator.propertyToProxy("BankManager.Proxy");
-
         BankManagerPrx bankManager = BankManagerPrxHelper.checkedCast(base);
 
-        final StringHolder accountIdHolder = new StringHolder();
-        final PersonalData personalData = new PersonalData("s", "s", "s", "s");
-        bankManager.createAccount(personalData, accountType.SILVER, accountIdHolder);
+        final StringHolder firstAccountStringHolder = new StringHolder();
+        final PersonalData firstPersonalData = new PersonalData("s", "s", "s", "s");
+        bankManager.createAccount(firstPersonalData, accountType.SILVER, firstAccountStringHolder);
 
-        final AccountPrx accountPrx = AccountPrxHelper.checkedCast(
-                // todo: nope xD
+        final StringHolder secondAccountStringHolder = new StringHolder();
+        final PersonalData secondPersonalData = new PersonalData("s", "s", "s", "s");
+        bankManager.createAccount(secondPersonalData, accountType.SILVER, secondAccountStringHolder);
+
+        final AccountPrx firstAccountPrfx = AccountPrxHelper.checkedCast(
                 communicator.stringToProxy(
-                        "accounts/" + accountIdHolder.value + ":" +
+                        "accounts/" + firstAccountStringHolder.value + ":" +
                                 communicator.getProperties().getProperty("Accounts.Proxy").split(":")[1]
                 )
         );
 
-        System.out.println(accountPrx.getAccountNumber());
+        final AccountPrx secondAccountPrfx = AccountPrxHelper.checkedCast(
+                communicator.stringToProxy(
+                        "accounts/" + secondAccountStringHolder.value + ":" +
+                                communicator.getProperties().getProperty("Accounts.Proxy").split(":")[1]
+                )
+        );
 
+        System.out.println("\n\n------BEFORE MONEY TRANSFER------");
+        System.out.println("first account number: " + firstAccountPrfx.getAccountNumber());
+        System.out.println("first account balance: " + firstAccountPrfx.getBalance());
+        System.out.println("second account number: " + secondAccountPrfx.getAccountNumber());
+        System.out.println("second account balance " + secondAccountPrfx.getBalance());
+
+        firstAccountPrfx.transferMoney(secondAccountPrfx.getAccountNumber(), 3000);
+
+        System.out.println("\n\n------AFTER MONEY TRANSFER------");
+        System.out.println("first account number: " + firstAccountPrfx.getAccountNumber());
+        System.out.println("first account balance: " + firstAccountPrfx.getBalance());
+        System.out.println("second account number: " + secondAccountPrfx.getAccountNumber());
+        System.out.println("second account balance: " + secondAccountPrfx.getBalance());
     }
 
 }

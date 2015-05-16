@@ -17,9 +17,13 @@ public class SilverAccount extends _AccountDisp implements DomainAccount {
     private final transient MoneyTransferService moneyTransferService;
 
     public SilverAccount(String accountNumber, PersonalData personalData, MoneyTransferService moneyTransferService) {
+        this(accountNumber, personalData, 0, moneyTransferService);
+    }
+
+    public SilverAccount(String accountNumber, PersonalData personalData, int balance, MoneyTransferService moneyTransferService) {
         this.accountNumber = accountNumber;
         this.personalData = personalData;
-        this.balance = 0;
+        this.balance = balance;
         this.moneyTransferService = moneyTransferService;
     }
 

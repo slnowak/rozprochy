@@ -10,6 +10,7 @@ import org.apache.commons.lang3.RandomStringUtils;
  */
 public class AccountFactory {
 
+    private static final int DEFAULT_BALANCE = 10000;
     private final MoneyTransferService moneyTransferService;
 
     public AccountFactory(MoneyTransferService moneyTransferService) {
@@ -28,7 +29,7 @@ public class AccountFactory {
     }
 
     private DomainAccount createSilverAccount(PersonalData personalData) {
-        return new SilverAccount(randomAccountNumber(), personalData, moneyTransferService);
+        return new SilverAccount(randomAccountNumber(), personalData, DEFAULT_BALANCE, moneyTransferService);
     }
 
     private DomainAccount createPremiumAccount(PersonalData personalData) {
