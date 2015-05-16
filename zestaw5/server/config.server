@@ -1,2 +1,3 @@
 
 ACCOUNTS.Endpoints=tcp -h 127.0.0.1 -p 10000:udp -h 127.0.0.1 -p 10000 -h 127.0.0.1 -p 10001
+FinancialNewsProxy=financialnews:tcp -h 149.156.97.154 -p 11113

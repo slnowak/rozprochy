@@ -33,7 +33,9 @@ public class AccountFactory {
     }
 
     private DomainAccount createPremiumAccount(PersonalData personalData) {
-        return new PremiumAccount();
+        return new PremiumAccount(
+                createSilverAccount(personalData)
+        );
     }
 
     private String randomAccountNumber() {
