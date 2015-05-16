@@ -1,7 +1,7 @@
 package com.sr.bankaccountmanager;
 
-import Bank.BankManagerPrx;
-import Bank.BankManagerPrxHelper;
+import Bank.*;
+import Ice.StringHolder;
 
 /**
  * Created by novy on 16.05.15.
@@ -14,7 +14,17 @@ public class Client {
         Ice.ObjectPrx base = communicator.propertyToProxy("BankManager.Proxy");
 
         BankManagerPrx bankManager = BankManagerPrxHelper.checkedCast(base);
-        bankManager.removeAccount("elo");
+
+        final StringHolder accountIdHolder = new StringHolder();
+        final PersonalData personalData = new PersonalData("", "", "", "");
+        bankManager.createAccount(personalData, accountType.SILVER, accountIdHolder);
+
+        final AccountPrx accountPrx = AccountPrxHelper.checkedCast(
+                communicator.propertyToProxy("Accounts.Proxy")
+        );
+
+        System.out.println(accountPrx.getAccountNumber());
+
     }
 
 }

@@ -23,7 +23,7 @@ public class AccountImpl extends _AccountDisp implements Account {
 
     @Override
     public String getAccountNumber(Current __current) {
-        return null;
+        return "accnumber";
     }
 
     @Override
