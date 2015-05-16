@@ -20,7 +20,11 @@ public class Client {
         bankManager.createAccount(personalData, accountType.SILVER, accountIdHolder);
 
         final AccountPrx accountPrx = AccountPrxHelper.checkedCast(
-                communicator.propertyToProxy("Accounts.Proxy")
+                // todo: nope xD
+                communicator.stringToProxy(
+                        "accounts/" + accountIdHolder.value + ":" +
+                                communicator.getProperties().getProperty("Accounts.Proxy").split(":")[1]
+                )
         );
 
         System.out.println(accountPrx.getAccountNumber());

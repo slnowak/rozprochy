@@ -3,10 +3,12 @@ package com.sr.bankaccountmanager.account;
 import Bank.*;
 import Ice.Current;
 
+import java.io.Serializable;
+
 /**
  * Created by novy on 16.05.15.
  */
-public class AccountImpl extends _AccountDisp implements Account {
+public class AccountImpl extends _AccountDisp implements Account, Serializable {
 
     private static final int DIVIDE_FACTOR = 100;
 

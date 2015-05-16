@@ -5,7 +5,7 @@ import Ice.Identity;
 import Ice.ServantLocator;
 import com.sr.bankaccountmanager.account.InMemoryAccountRepository;
 import com.sr.bankaccountmanager.account.evictor.AccountEvictor;
-import com.sr.bankaccountmanager.account.evictor.FileAccountRepository;
+import com.sr.bankaccountmanager.account.FileAccountRepository;
 
 /**
  * Created by novy on 16.05.15.
@@ -19,7 +19,7 @@ public class Server {
 
 
         final InMemoryAccountRepository cache = new InMemoryAccountRepository();
-        final ServantLocator accountEvictor = new AccountEvictor(2, cache, new FileAccountRepository());
+        final ServantLocator accountEvictor = new AccountEvictor(0, cache, new FileAccountRepository());
         adapter.addServantLocator(accountEvictor, "accounts");
 
         Identity identity = communicator.stringToIdentity("managers/bankManager");

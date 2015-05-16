@@ -26,8 +26,10 @@ public class AccountEvictor extends EvictorBase implements Ice.ServantLocator {
     public Ice.Object add(Current current, LocalObjectHolder cookie) {
         Account account = null;
 
+        // todo: refactor
         final String accountId = current.id.name;
         cookie.value = accountId;
+        System.out.println(accountId);
         final Optional<Account> possibleCachedAccount = cache.load(accountId);
         if (possibleCachedAccount.isPresent()) {
             account = possibleCachedAccount.get();
