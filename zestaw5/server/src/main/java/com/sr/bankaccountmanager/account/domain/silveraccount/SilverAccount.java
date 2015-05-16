@@ -1,10 +1,8 @@
-package com.sr.bankaccountmanager.account.domain;
+package com.sr.bankaccountmanager.account.domain.silveraccount;
 
-import Bank.IncorrectAccountNumber;
-import Bank.IncorrectAmount;
-import Bank.PersonalData;
-import Bank._AccountDisp;
+import Bank.*;
 import Ice.Current;
+import com.sr.bankaccountmanager.account.domain.DomainAccount;
 
 /**
  * Created by novy on 16.05.15.
@@ -14,16 +12,18 @@ public class SilverAccount extends _AccountDisp implements DomainAccount {
     private final String accountNumber;
     private final PersonalData personalData;
     private int balance;
+    private final Currency currency;
     private final transient MoneyTransferService moneyTransferService;
 
     public SilverAccount(String accountNumber, PersonalData personalData, MoneyTransferService moneyTransferService) {
-        this(accountNumber, personalData, 0, moneyTransferService);
+        this(accountNumber, personalData, 0, Currency.PLN, moneyTransferService);
     }
 
-    public SilverAccount(String accountNumber, PersonalData personalData, int balance, MoneyTransferService moneyTransferService) {
+    public SilverAccount(String accountNumber, PersonalData personalData, int balance, Currency currency, MoneyTransferService moneyTransferService) {
         this.accountNumber = accountNumber;
         this.personalData = personalData;
         this.balance = balance;
+        this.currency = currency;
         this.moneyTransferService = moneyTransferService;
     }
 
@@ -43,6 +43,11 @@ public class SilverAccount extends _AccountDisp implements DomainAccount {
         final MoneyTransfer moneyTransfer = new MoneyTransfer(this.accountNumber, accountNumber, amount);
         moneyTransferService.makeTransfer(moneyTransfer);
 
+    }
+
+    @Override
+    public Currency currency() {
+        return currency;
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.sr.bankaccountmanager.account.domain;
 
 import Bank.Account;
+import Bank.Currency;
 
 import java.io.Serializable;
 
@@ -9,6 +10,9 @@ import java.io.Serializable;
  */
 public interface DomainAccount extends Account, Serializable {
 
+    Currency currency();
+
     void increaseBalance(int amount);
+
     void decreaseBalance(int amount);
 }

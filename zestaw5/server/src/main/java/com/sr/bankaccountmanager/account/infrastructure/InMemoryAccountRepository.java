@@ -3,7 +3,7 @@ package com.sr.bankaccountmanager.account.infrastructure;
 import Bank.Account;
 import Bank.NoSuchAccount;
 import com.sr.bankaccountmanager.account.domain.AccountRepository;
-import com.sr.bankaccountmanager.account.domain.ByAccountNumberQuery;
+import com.sr.bankaccountmanager.account.domain.silveraccount.ByAccountNumberQuery;
 import com.sr.bankaccountmanager.account.domain.DomainAccount;
 
 import java.util.HashMap;

@@ -9,17 +9,23 @@ import Ice.Current;
  */
 public class DomainFinancialNewsReceiver extends _FinancialNewsReceiverDisp {
 
-    public DomainFinancialNewsReceiver() {
+    private final InterestRepository interestRepository;
+    private final ExchangeRateRepository exchangeRateRepository;
+
+    public DomainFinancialNewsReceiver(InterestRepository interestRepository, ExchangeRateRepository exchangeRateRepository) {
+        this.interestRepository = interestRepository;
+        this.exchangeRateRepository = exchangeRateRepository;
     }
 
     @Override
     public void interestRate(float rate, Currency curr, Current __current) {
-        System.out.println("interest changed " + rate + " " + curr);
-
+        interestRepository.updateInterestRateFor(curr, rate);
     }
 
     @Override
     public void exchangeRate(float rate, Currency curr1, Currency curr2, Current __current) {
-        System.out.println("exchange rate changed! " + rate + " " + curr1 + " " + curr2);
+        exchangeRateRepository.updateExchangeRateFor(
+                ExchangeSides.of(curr1, curr2), rate
+        );
     }
 }

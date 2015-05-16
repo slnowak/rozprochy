@@ -1,4 +1,4 @@
-package com.sr.bankaccountmanager.account.domain;
+package com.sr.bankaccountmanager.account.domain.silveraccount;
 
 import Bank.IncorrectAccountNumber;
 import Bank.IncorrectAmount;

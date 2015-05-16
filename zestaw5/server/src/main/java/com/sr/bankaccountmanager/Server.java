@@ -7,12 +7,15 @@ import FinancialNews.FinancialNewsServerPrxHelper;
 import Ice.Identity;
 import Ice.ServantLocator;
 import com.sr.bankaccountmanager.account.domain.AccountFactory;
-import com.sr.bankaccountmanager.account.domain.MoneyTransferService;
+import com.sr.bankaccountmanager.account.domain.premiumaccount.LoanCalculationService;
+import com.sr.bankaccountmanager.account.domain.silveraccount.MoneyTransferService;
 import com.sr.bankaccountmanager.account.infrastructure.FileAccountRepository;
 import com.sr.bankaccountmanager.account.infrastructure.InMemoryAccountRepository;
 import com.sr.bankaccountmanager.account.infrastructure.evictor.AccountEvictor;
 import com.sr.bankaccountmanager.manager.domain.BankManager;
 import com.sr.bankaccountmanager.news.domain.DomainFinancialNewsReceiver;
+import com.sr.bankaccountmanager.news.infrastructure.InMemoryExchangeRateRepository;
+import com.sr.bankaccountmanager.news.infrastructure.InMemoryInterestRepository;
 
 import java.util.UUID;
 
@@ -30,7 +33,13 @@ public class Server {
         final InMemoryAccountRepository cache = new InMemoryAccountRepository();
         final FileAccountRepository repository = new FileAccountRepository();
         final MoneyTransferService moneyTransferService = new MoneyTransferService(cache);
-        final AccountFactory accountFactory = new AccountFactory(moneyTransferService);
+
+        final InMemoryInterestRepository inMemoryInterestRepository = new InMemoryInterestRepository();
+        final InMemoryExchangeRateRepository inMemoryExchangeRateRepository = new InMemoryExchangeRateRepository();
+        final LoanCalculationService loanCalculationService =
+                new LoanCalculationService(inMemoryInterestRepository, inMemoryExchangeRateRepository);
+
+        final AccountFactory accountFactory = new AccountFactory(moneyTransferService, loanCalculationService);
 
         final ServantLocator accountEvictor = new AccountEvictor(0, cache, repository);
         adapter.addServantLocator(accountEvictor, "accounts");
@@ -44,7 +53,9 @@ public class Server {
         final Ice.ObjectPrx financialNewsBase = communicator.propertyToProxy("FinancialNewsProxy");
         final FinancialNewsServerPrx financialNewsServerPrx = FinancialNewsServerPrxHelper.checkedCast(financialNewsBase);
 
-        final DomainFinancialNewsReceiver domainFinancialNewsReceiver = new DomainFinancialNewsReceiver();
+        final DomainFinancialNewsReceiver domainFinancialNewsReceiver = new DomainFinancialNewsReceiver(
+                inMemoryInterestRepository, inMemoryExchangeRateRepository
+        );
         final Identity financialNewsReceiverIdentity = new Identity();
         financialNewsReceiverIdentity.name = UUID.randomUUID().toString();
         financialNewsReceiverIdentity.category = "";

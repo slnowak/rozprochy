@@ -1,6 +1,8 @@
 package com.sr.bankaccountmanager;
 
 import Bank.*;
+import Ice.FloatHolder;
+import Ice.IntHolder;
 import Ice.StringHolder;
 
 /**
@@ -29,7 +31,7 @@ public class Client {
                 )
         );
 
-        final AccountPrx secondAccountPrx = AccountPrxHelper.checkedCast(
+        final PremiumAccountPrx secondAccountPrx = PremiumAccountPrxHelper.checkedCast(
                 communicator.stringToProxy(
                         "accounts/" + secondAccountStringHolder.value + ":" +
                                 communicator.getProperties().getProperty("Accounts.Proxy").split(":")[1]
@@ -49,6 +51,14 @@ public class Client {
         System.out.println("first account balance: " + firstAccountPrx.getBalance());
         System.out.println("second account number: " + secondAccountPrx.getAccountNumber());
         System.out.println("second account balance: " + secondAccountPrx.getBalance());
+
+        // calculate loan
+        final FloatHolder interestRateHolder = new FloatHolder();
+        final IntHolder totalLoanCostHolder = new IntHolder();
+        secondAccountPrx.calculateLoan(15000, Currency.USD, 15, interestRateHolder, totalLoanCostHolder);
+
+        System.out.println("interest: " + interestRateHolder.value);
+        System.out.println("total cost: " + totalLoanCostHolder.value);
     }
 
 }

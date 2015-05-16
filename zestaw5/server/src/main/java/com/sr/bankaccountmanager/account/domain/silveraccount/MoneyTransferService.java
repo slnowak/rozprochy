@@ -1,6 +1,7 @@
-package com.sr.bankaccountmanager.account.domain;
+package com.sr.bankaccountmanager.account.domain.silveraccount;
 
 import Bank.IncorrectAccountNumber;
+import com.sr.bankaccountmanager.account.domain.DomainAccount;
 
 import java.util.Optional;
 
