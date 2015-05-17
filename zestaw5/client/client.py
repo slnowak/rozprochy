@@ -1,8 +1,9 @@
+__author__ = 'novy'
+
 import sys
 import Ice
 
 import Bank
-
 
 def create_account(bank_manager):
     first_name = raw_input('Enter First Name: ')
@@ -138,9 +139,9 @@ def use_account(communicator):
 
 
 if __name__ == '__main__':
-    ic = Ice.initialize(sys.argv)
+    communicator = Ice.initialize(sys.argv)
     bank_manager = Bank.BankManagerPrx.checkedCast(
-        ic.propertyToProxy("BankManager.Proxy")
+        communicator.propertyToProxy("BankManager.Proxy")
     )
 
     if not bank_manager:
@@ -156,12 +157,12 @@ if __name__ == '__main__':
         elif action == 2:
             remove_account(bank_manager)
         elif action == 3:
-            use_account(ic)
+            use_account(communicator)
         elif action == 4:
             break
         else:
             print 'No such option, try again'
         print
 
-    if ic:
-        ic.destroy()
+    if communicator:
+        communicator.destroy()
