@@ -1,2 +1,43 @@
-BankManager.Proxy=managers/bankManager:tcp -h 127.0.0.1 -p 10000
-Accounts.Proxy=accounts/:tcp -h 127.0.0.1 -p 10000
+BankManager.Proxy=managers/bankManager:tcp -h 192.168.1.103 -p 10000
+SilverAccounts.Proxy=silverAccounts/:tcp -h 192.168.1.103 -p 10000
+PremiumAccounts.Proxy=premiumAccounts/:tcp -h 192.168.1.103 -p 10000
+
+#
+# Warn about connection exceptions.
+#
+Ice.Warn.Connections=1
+
+#
+# Client-side ACM is enabled by default, with an interval of 60
+# seconds. For this demo, we want to use a short timeout of 10
+# seconds. By enabling network tracing below, you can see ACM
+# automatically close idle connections.
+#
+Ice.ACM.Client=600
+
+#
+# Network Tracing
+#
+# 0 = no network tracing
+# 1 = trace connection establishment and closure
+# 2 = like 1, but more detailed
+# 3 = like 2, but also trace data transfer
+#
+#Ice.Trace.Network=2
+
+#
+# Protocol Tracing
+#
+# 0 = no protocol tracing
+# 1 = trace protocol messages
+#
+#Ice.Trace.Protocol=1
+
+#
+# Security Tracing
+#
+# 0 = no security tracing
+# 1 = trace messages
+#
+#IceSSL.Trace.Security=1
+
