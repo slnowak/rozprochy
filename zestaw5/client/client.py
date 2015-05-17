@@ -1,5 +1,8 @@
-import sys, Ice
+import sys
+import Ice
+
 import Bank
+
 
 def create_account(bank_manager):
     first_name = raw_input('Enter First Name: ')
