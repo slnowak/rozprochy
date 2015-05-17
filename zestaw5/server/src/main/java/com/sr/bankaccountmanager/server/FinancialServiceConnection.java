@@ -9,8 +9,8 @@ import Ice.Identity;
 import Ice.ObjectAdapter;
 import com.sr.bankaccountmanager.news.domain.DomainFinancialNewsReceiver;
 import com.sr.bankaccountmanager.news.domain.ExchangeRateRepository;
+import com.sr.bankaccountmanager.news.domain.InterestRepository;
 import com.sr.bankaccountmanager.news.infrastructure.FinancialServerPinger;
-import com.sr.bankaccountmanager.news.infrastructure.InterestRepository;
 
 import java.util.UUID;
 

@@ -10,7 +10,7 @@ import com.sr.bankaccountmanager.account.infrastructure.InMemoryAccountRepositor
 import com.sr.bankaccountmanager.account.infrastructure.evictor.AccountEvictor;
 import com.sr.bankaccountmanager.manager.domain.BankManager;
 import com.sr.bankaccountmanager.news.infrastructure.InMemoryExchangeRateRepository;
-import com.sr.bankaccountmanager.news.infrastructure.InterestRepository;
+import com.sr.bankaccountmanager.news.infrastructure.InMemoryInterestRepository;
 
 /**
  * Created by novy on 16.05.15.
@@ -26,10 +26,10 @@ public class Server {
         final FileAccountRepository repository = new FileAccountRepository();
         final MoneyTransferService moneyTransferService = new MoneyTransferService(cache);
 
-        final InterestRepository interestRepository = new InterestRepository();
+        final InMemoryInterestRepository inMemoryInterestRepository = new InMemoryInterestRepository();
         final InMemoryExchangeRateRepository inMemoryExchangeRateRepository = new InMemoryExchangeRateRepository();
         final LoanCalculationService loanCalculationService =
-                new LoanCalculationService(interestRepository, inMemoryExchangeRateRepository);
+                new LoanCalculationService(inMemoryInterestRepository, inMemoryExchangeRateRepository);
         final AccountFactory accountFactory = new AccountFactory(moneyTransferService, loanCalculationService);
 
         // register evictor for premium accounts
@@ -43,7 +43,7 @@ public class Server {
 
         // two-way connection with remote financial service
         FinancialServiceConnection.establish(
-                communicator, adapter, interestRepository, inMemoryExchangeRateRepository
+                communicator, adapter, inMemoryInterestRepository, inMemoryExchangeRateRepository
         );
 
         adapter.activate();

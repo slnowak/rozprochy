@@ -9,7 +9,7 @@ import java.util.concurrent.ConcurrentMap;
 /**
  * Created by novy on 16.05.15.
  */
-public class InterestRepository implements com.sr.bankaccountmanager.news.domain.InterestRepository {
+public class InMemoryInterestRepository implements InterestRepository {
 
     private final ConcurrentMap<Currency, Float> interests = Maps.newConcurrentMap();
     private static final float DEFAULT_INTEREST_RATE = 0.05f;
