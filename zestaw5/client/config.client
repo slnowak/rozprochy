@@ -1,0 +1,2 @@
+BankManager.Proxy=managers/bankManager:tcp -h 127.0.0.1 -p 10000
+Accounts.Proxy=accounts/:tcp -h 127.0.0.1 -p 10000
