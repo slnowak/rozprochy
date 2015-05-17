@@ -4,6 +4,9 @@ import Bank.*;
 import Ice.FloatHolder;
 import Ice.IntHolder;
 import Ice.StringHolder;
+import com.google.common.collect.ImmutableMap;
+
+import java.util.Map;
 
 /**
  * Created by novy on 16.05.15.
@@ -11,6 +14,14 @@ import Ice.StringHolder;
 
 public class Client {
     public static void main(String[] args) throws Exception {
+        final Map<accountType, String> proxies = ImmutableMap.of(
+                accountType.SILVER, "SilverAccounts.Proxy",
+                accountType.PREMIUM, "PremiumAccounts.Proxy"
+        );
+        final Map<accountType, String> categories = ImmutableMap.of(
+                accountType.SILVER, "silverAccounts/",
+                accountType.PREMIUM, "premiumAccounts/"
+        );
         Ice.Communicator communicator = Ice.Util.initialize(args);
 
         Ice.ObjectPrx base = communicator.propertyToProxy("BankManager.Proxy");
@@ -26,15 +37,15 @@ public class Client {
 
         final AccountPrx firstAccountPrx = AccountPrxHelper.checkedCast(
                 communicator.stringToProxy(
-                        "accounts/" + firstAccountStringHolder.value + ":" +
-                                communicator.getProperties().getProperty("Accounts.Proxy").split(":")[1]
+                        categories.get(accountType.SILVER) + firstAccountStringHolder.value + ":" +
+                                communicator.getProperties().getProperty(proxies.get(accountType.SILVER)).split(":")[1]
                 )
         );
 
         final PremiumAccountPrx secondAccountPrx = PremiumAccountPrxHelper.checkedCast(
                 communicator.stringToProxy(
-                        "accounts/" + secondAccountStringHolder.value + ":" +
-                                communicator.getProperties().getProperty("Accounts.Proxy").split(":")[1]
+                        categories.get(accountType.PREMIUM) + secondAccountStringHolder.value + ":" +
+                                communicator.getProperties().getProperty(proxies.get(accountType.PREMIUM)).split(":")[1]
                 )
         );
 

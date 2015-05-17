@@ -109,7 +109,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>com.sr.bankaccountmanager.Server</mainClass>
+                            <mainClass>com.sr.bankaccountmanager.server.Server</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>

@@ -1,2 +1,3 @@
 BankManager.Proxy=managers/bankManager:tcp -h 127.0.0.1 -p 10000
-Accounts.Proxy=accounts/:tcp -h 127.0.0.1 -p 10000
+SilverAccounts.Proxy=silverAccounts/:tcp -h 127.0.0.1 -p 10000
+PremiumAccounts.Proxy=premiumAccounts/:tcp -h 127.0.0.1 -p 10000

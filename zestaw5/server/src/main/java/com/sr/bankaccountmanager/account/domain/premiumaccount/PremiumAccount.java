@@ -51,7 +51,6 @@ public class PremiumAccount extends _PremiumAccountDisp implements DomainAccount
 
     @Override
     public void calculateLoan(int amount, Currency curr, int period, FloatHolder interestRate, IntHolder totalCost, Current __current) throws IncorrectData {
-        // todo: add currency
         final LoanCalculationData loanCalculationData = new LoanCalculationData(amount, currency(), curr, period);
         final LoanDetails loanDetails = loanCalculationService.calculateLoan(loanCalculationData);
         interestRate.value = loanDetails.getInterestRate();

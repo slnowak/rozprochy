@@ -23,7 +23,6 @@ public class AccountEvictor extends EvictorBase implements Ice.ServantLocator {
 
     @Override
     public Ice.Object add(Current current, LocalObjectHolder cookie) {
-
         final String accountId = current.id.name;
         cookie.value = accountId;
 

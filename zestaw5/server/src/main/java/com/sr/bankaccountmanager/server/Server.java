@@ -1,9 +1,5 @@
-package com.sr.bankaccountmanager;
+package com.sr.bankaccountmanager.server;
 
-import FinancialNews.FinancialNewsReceiverPrx;
-import FinancialNews.FinancialNewsReceiverPrxHelper;
-import FinancialNews.FinancialNewsServerPrx;
-import FinancialNews.FinancialNewsServerPrxHelper;
 import Ice.Identity;
 import Ice.ServantLocator;
 import com.sr.bankaccountmanager.account.domain.AccountFactory;
@@ -13,11 +9,8 @@ import com.sr.bankaccountmanager.account.infrastructure.FileAccountRepository;
 import com.sr.bankaccountmanager.account.infrastructure.InMemoryAccountRepository;
 import com.sr.bankaccountmanager.account.infrastructure.evictor.AccountEvictor;
 import com.sr.bankaccountmanager.manager.domain.BankManager;
-import com.sr.bankaccountmanager.news.domain.DomainFinancialNewsReceiver;
 import com.sr.bankaccountmanager.news.infrastructure.InMemoryExchangeRateRepository;
 import com.sr.bankaccountmanager.news.infrastructure.InMemoryInterestRepository;
-
-import java.util.UUID;
 
 /**
  * Created by novy on 16.05.15.
@@ -26,10 +19,9 @@ public class Server {
 
     public int run(String[] args) {
         Ice.Communicator communicator = Ice.Util.initialize(args);
+        Ice.ObjectAdapter adapter = communicator.createObjectAdapter("BANKSERVICE");
 
-        Ice.ObjectAdapter adapter = communicator.createObjectAdapter("ACCOUNTS");
-
-
+        //init deps
         final InMemoryAccountRepository cache = new InMemoryAccountRepository();
         final FileAccountRepository repository = new FileAccountRepository();
         final MoneyTransferService moneyTransferService = new MoneyTransferService(cache);
@@ -38,34 +30,21 @@ public class Server {
         final InMemoryExchangeRateRepository inMemoryExchangeRateRepository = new InMemoryExchangeRateRepository();
         final LoanCalculationService loanCalculationService =
                 new LoanCalculationService(inMemoryInterestRepository, inMemoryExchangeRateRepository);
-
         final AccountFactory accountFactory = new AccountFactory(moneyTransferService, loanCalculationService);
 
+        // register evictor for premium accounts
         final ServantLocator accountEvictor = new AccountEvictor(0, cache, repository);
-        adapter.addServantLocator(accountEvictor, "accounts");
+        adapter.addServantLocator(accountEvictor, "silverAccounts");
 
+        // register bankmanager servant
         Identity identity = communicator.stringToIdentity("managers/bankManager");
         final Bank.BankManager bankManagerServant = new BankManager(cache, accountFactory);
         adapter.add(bankManagerServant, identity);
 
-
-        // two-way connection with remote service
-        final Ice.ObjectPrx financialNewsBase = communicator.propertyToProxy("FinancialNewsProxy");
-        final FinancialNewsServerPrx financialNewsServerPrx = FinancialNewsServerPrxHelper.checkedCast(financialNewsBase);
-
-        final DomainFinancialNewsReceiver domainFinancialNewsReceiver = new DomainFinancialNewsReceiver(
-                inMemoryInterestRepository, inMemoryExchangeRateRepository
+        // two-way connection with remote financial service
+        FinancialServiceConnection.establish(
+                communicator, adapter, inMemoryInterestRepository, inMemoryExchangeRateRepository
         );
-        final Identity financialNewsReceiverIdentity = new Identity();
-        financialNewsReceiverIdentity.name = UUID.randomUUID().toString();
-        financialNewsReceiverIdentity.category = "";
-        final FinancialNewsReceiverPrx financialNewsReceiverPrx =
-                FinancialNewsReceiverPrxHelper.checkedCast(
-                        adapter.add(domainFinancialNewsReceiver, financialNewsReceiverIdentity)
-                );
-
-        financialNewsServerPrx.registerForNews(financialNewsReceiverPrx);
-        financialNewsServerPrx.ice_getConnection().setAdapter(adapter);
 
         adapter.activate();
 
@@ -76,8 +55,8 @@ public class Server {
         return 0;
     }
 
-    public static void
-    main(String[] args) {
+
+    public static void main(String[] args) {
         Server app = new Server();
         int status = app.run(args);
         System.exit(status);
