@@ -19,11 +19,13 @@ public class DomainFinancialNewsReceiver extends _FinancialNewsReceiverDisp {
 
     @Override
     public void interestRate(float rate, Currency curr, Current __current) {
+        System.out.println("got new interest: " + curr + " " + rate);
         interestRepository.updateInterestRateFor(curr, rate);
     }
 
     @Override
     public void exchangeRate(float rate, Currency curr1, Currency curr2, Current __current) {
+        System.out.println("got exchange: " + curr1 + " " + curr2 + " " + rate);
         exchangeRateRepository.updateExchangeRateFor(
                 ExchangeSides.of(curr1, curr2), rate
         );

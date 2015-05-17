@@ -10,6 +10,7 @@ import com.sr.bankaccountmanager.news.domain.InterestRepository;
  */
 public class LoanCalculationService {
 
+    private static final float PER_MONTH_FACTOR = 0.01f;
     private final InterestRepository interestRepository;
     private final ExchangeRateRepository exchangeRateRepository;
 
@@ -19,7 +20,6 @@ public class LoanCalculationService {
     }
 
     public LoanDetails calculateLoan(LoanCalculationData calculationData) {
-//        todo: fix
         final ExchangeSides exchangeSides = calculationData.getExchangeSides();
         final float exchangedMoney = exchange(exchangeSides, calculationData.getAmount());
         final float periodInterestRate = periodInterestRate(calculationData.getPeriod(), exchangeSides.to());
@@ -37,13 +37,12 @@ public class LoanCalculationService {
 
     private float exchange(ExchangeSides exchangeSides, float amount) {
         final Float exchangeRate = exchangeRateRepository.exchangeRateFor(exchangeSides);
-        System.out.println(exchangeRate + " " + amount / exchangeRate);
         return amount / exchangeRate;
     }
 
     private float periodInterestRate(int period, Currency currency) {
         final float rate = interestRepository.interestRateFor(currency);
-        return (period / 12) * rate;
+        return rate + period * PER_MONTH_FACTOR;
     }
 
 

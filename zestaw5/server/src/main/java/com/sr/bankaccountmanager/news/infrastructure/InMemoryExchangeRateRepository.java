@@ -14,7 +14,7 @@ import java.util.stream.Stream;
 public class InMemoryExchangeRateRepository implements ExchangeRateRepository {
 
     private final ConcurrentMap<ExchangeSides, Float> exchangeRates = Maps.newConcurrentMap();
-    private static final float DEFAULT_EXCHANGE_RATE = 6.66f;
+    private static final float DEFAULT_EXCHANGE_RATE = 1.00f;
 
     public InMemoryExchangeRateRepository() {
         Stream.of(Currency.values())
@@ -26,6 +26,9 @@ public class InMemoryExchangeRateRepository implements ExchangeRateRepository {
     @Override
     public void updateExchangeRateFor(ExchangeSides exchangeSides, Float exchangeRate) {
         exchangeRates.put(exchangeSides, exchangeRate);
+        exchangeRates.put(
+                ExchangeSides.of(exchangeSides.to(), exchangeSides.from()), 1.0f / exchangeRate
+        );
     }
 
     @Override

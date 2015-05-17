@@ -10,7 +10,7 @@ import com.sr.bankaccountmanager.account.infrastructure.InMemoryAccountRepositor
 import com.sr.bankaccountmanager.account.infrastructure.evictor.AccountEvictor;
 import com.sr.bankaccountmanager.manager.domain.BankManager;
 import com.sr.bankaccountmanager.news.infrastructure.InMemoryExchangeRateRepository;
-import com.sr.bankaccountmanager.news.infrastructure.InMemoryInterestRepository;
+import com.sr.bankaccountmanager.news.infrastructure.InterestRepository;
 
 /**
  * Created by novy on 16.05.15.
@@ -26,10 +26,10 @@ public class Server {
         final FileAccountRepository repository = new FileAccountRepository();
         final MoneyTransferService moneyTransferService = new MoneyTransferService(cache);
 
-        final InMemoryInterestRepository inMemoryInterestRepository = new InMemoryInterestRepository();
+        final InterestRepository interestRepository = new InterestRepository();
         final InMemoryExchangeRateRepository inMemoryExchangeRateRepository = new InMemoryExchangeRateRepository();
         final LoanCalculationService loanCalculationService =
-                new LoanCalculationService(inMemoryInterestRepository, inMemoryExchangeRateRepository);
+                new LoanCalculationService(interestRepository, inMemoryExchangeRateRepository);
         final AccountFactory accountFactory = new AccountFactory(moneyTransferService, loanCalculationService);
 
         // register evictor for premium accounts
@@ -38,12 +38,12 @@ public class Server {
 
         // register bankmanager servant
         Identity identity = communicator.stringToIdentity("managers/bankManager");
-        final Bank.BankManager bankManagerServant = new BankManager(cache, accountFactory);
+        final Bank.BankManager bankManagerServant = new BankManager(cache, repository, accountFactory);
         adapter.add(bankManagerServant, identity);
 
         // two-way connection with remote financial service
         FinancialServiceConnection.establish(
-                communicator, adapter, inMemoryInterestRepository, inMemoryExchangeRateRepository
+                communicator, adapter, interestRepository, inMemoryExchangeRateRepository
         );
 
         adapter.activate();

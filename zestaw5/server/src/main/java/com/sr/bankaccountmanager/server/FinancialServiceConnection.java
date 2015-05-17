@@ -8,9 +8,9 @@ import Ice.Communicator;
 import Ice.Identity;
 import Ice.ObjectAdapter;
 import com.sr.bankaccountmanager.news.domain.DomainFinancialNewsReceiver;
+import com.sr.bankaccountmanager.news.domain.ExchangeRateRepository;
 import com.sr.bankaccountmanager.news.infrastructure.FinancialServerPinger;
-import com.sr.bankaccountmanager.news.infrastructure.InMemoryExchangeRateRepository;
-import com.sr.bankaccountmanager.news.infrastructure.InMemoryInterestRepository;
+import com.sr.bankaccountmanager.news.infrastructure.InterestRepository;
 
 import java.util.UUID;
 
@@ -22,12 +22,12 @@ class FinancialServiceConnection {
 
     public static final String FINANCIAL_NEWS_PROXY = "FinancialNewsProxy";
 
-    public static void establish(Communicator communicator, ObjectAdapter adapter, InMemoryInterestRepository inMemoryInterestRepository, InMemoryExchangeRateRepository inMemoryExchangeRateRepository) {
+    public static void establish(Communicator communicator, ObjectAdapter adapter, InterestRepository interestRepository, ExchangeRateRepository exchangeRateRepository) {
         final Ice.ObjectPrx financialNewsBase = communicator.propertyToProxy(FINANCIAL_NEWS_PROXY);
         final FinancialNewsServerPrx financialNewsServerPrx = FinancialNewsServerPrxHelper.checkedCast(financialNewsBase);
 
         final DomainFinancialNewsReceiver domainFinancialNewsReceiver = new DomainFinancialNewsReceiver(
-                inMemoryInterestRepository, inMemoryExchangeRateRepository
+                interestRepository, exchangeRateRepository
         );
         final Identity financialNewsReceiverIdentity = new Identity();
         financialNewsReceiverIdentity.name = UUID.randomUUID().toString();

@@ -18,10 +18,12 @@ import java.util.UUID;
 public class BankManager extends _BankManagerDisp implements Bank.BankManager {
 
     private static final String PREMIUM_ACCOUNTS_CATEGORY = "premiumAccounts";
+    private final AccountRepository cache;
     private final AccountRepository repository;
     private final AccountFactory factory;
 
-    public BankManager(AccountRepository repository, AccountFactory factory) {
+    public BankManager(AccountRepository cache, AccountRepository repository, AccountFactory factory) {
+        this.cache = cache;
         this.repository = repository;
         this.factory = factory;
     }
@@ -39,7 +41,7 @@ public class BankManager extends _BankManagerDisp implements Bank.BankManager {
             registerInAsmTable(__current.adapter, account, newAccountId);
         }
 
-        repository.save(newAccountId, account);
+        cache.save(newAccountId, account);
         accountID.value = newAccountId;
 
     }
@@ -61,6 +63,7 @@ public class BankManager extends _BankManagerDisp implements Bank.BankManager {
             throw new IncorrectData();
         }
 
+        cache.remove(accountID);
         repository.remove(accountID);
     }
 

@@ -40,6 +40,9 @@ public class SilverAccount extends _AccountDisp implements DomainAccount {
     @Override
     public void transferMoney(String accountNumber, int amount, Current __current) throws IncorrectAccountNumber, IncorrectAmount {
 
+        // could be done via __current.adapter.findServantLocator("category") for silver
+        // and adapter.find(identity) for premium, but this is kind of ugly
+
         final MoneyTransfer moneyTransfer = new MoneyTransfer(this.accountNumber, accountNumber, amount);
         moneyTransferService.makeTransfer(moneyTransfer);
 

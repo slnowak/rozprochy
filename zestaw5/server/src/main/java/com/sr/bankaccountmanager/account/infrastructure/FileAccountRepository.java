@@ -44,7 +44,13 @@ public class FileAccountRepository implements AccountRepository {
 
     @Override
     public void remove(String accountId) throws NoSuchAccount {
-        throw new NotImplementedException();
+
+        final File accountFile = new File(makeFilePath(accountId));
+        if (accountFile.exists()) {
+            accountFile.delete();
+        } else {
+            throw new NoSuchAccount();
+        }
     }
 
     private String makeFilePath(String accountId) {
