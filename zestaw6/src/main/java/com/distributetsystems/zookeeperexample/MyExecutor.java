@@ -1,5 +1,6 @@
 package com.distributetsystems.zookeeperexample;
 
+import com.distributetsystems.zookeeperexample.watchers.ChildrenWatcher;
 import com.distributetsystems.zookeeperexample.watchers.TaskCoordinator;
 import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.WatchedEvent;
@@ -16,6 +17,7 @@ public class MyExecutor implements Runnable, Watcher {
     private final ZooKeeper zooKeeper;
     private final String znode;
     private TaskCoordinator taskCoordinator;
+    private ChildrenWatcher childrenWatcher;
 
     public MyExecutor(String connectString,
                       String znode,
@@ -24,7 +26,8 @@ public class MyExecutor implements Runnable, Watcher {
         this.znode = znode;
 
         zooKeeper = new ZooKeeper(connectString, 3000, this);
-        taskCoordinator = new TaskCoordinator(zooKeeper, znode, commandToExecute, executionContext);
+        taskCoordinator = new TaskCoordinator(znode, commandToExecute, executionContext);
+        childrenWatcher = new ChildrenWatcher(znode);
         zooKeeper.exists(znode, true, null, this);
     }
 
@@ -36,5 +39,6 @@ public class MyExecutor implements Runnable, Watcher {
     public void process(WatchedEvent event) {
         taskCoordinator.process(event);
         zooKeeper.exists(znode, true, null, this);
+        zooKeeper.getChildren(znode, true, childrenWatcher, this);
     }
 }

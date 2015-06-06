@@ -39,7 +39,7 @@ public class TaskCoordinator implements Watcher {
 
     public void process(WatchedEvent event) {
 
-        if (!Objects.isNull(event.getPath()) && !event.getPath().equals(pathToWatch)) {
+        if (!pathToWatch.equals(event.getPath())) {
             return;
         }
 
