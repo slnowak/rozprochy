@@ -6,6 +6,7 @@ import org.apache.zookeeper.AsyncCallback;
 import org.apache.zookeeper.data.Stat;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by novy on 06.06.15.
@@ -25,7 +26,7 @@ public class ChildrenWatcher implements AsyncCallback.Children2Callback {
 
     public void processResult(int rc, String path, Object ctx, List<String> children, Stat stat) {
 
-        if (!pathToWatch.equals(path)) {
+        if (!pathToWatch.equals(path) || Objects.isNull(children)) {
             return;
         }
 
